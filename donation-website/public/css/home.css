@@ -1,0 +1,16 @@
+#text-over-img{
+    position: relative;
+    top: -400px;
+    /*left: 150px;*/
+    float: right;
+}
+#text-over-img p {
+    font-family: 'figtree', sans-serif;
+    font-size: 3rem;
+    font-weight: 600;
+    color: #687a7f;
+}
+#home-pic-caption {
+    z-index: 1;
+    color: #687a7f;
+}
