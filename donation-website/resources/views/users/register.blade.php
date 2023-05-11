@@ -28,7 +28,7 @@
 
                                 <x-lottie-card id="restaurant" title="Restaurant" link="https://assets8.lottiefiles.com/packages/lf20_cbr1qxxq.json"/>
 
-                                <x-lottie-card id="groceryStore" title="Grocery Store" link="https://assets7.lottiefiles.com/packages/lf20_iszpuyas.json" hover="autoplay"/>
+                                <x-lottie-card id="groceryStore" title="Grocery Store" link="https://assets7.lottiefiles.com/packages/lf20_iszpuyas.json" hover="autoplay" speed="0.7"/>
 
                             </div>
 
@@ -42,20 +42,37 @@
     </div>
 
 <script>
+    var form = document.getElementById("question1");
     var cards = document.getElementsByClassName("card");
-    Array.from(cards).forEach(function (card) {
-        card.addEventListener('click', function () {
-            var classes = this.classList;
-            if (classes.contains('cardZoom')) {
-                Array.from(cards).forEach(function (card) {
+    Array.from(cards).forEach(function (card1) {
+        card1.addEventListener('click', function () {
+
+            Array.from(cards).forEach(function (card) {
+                if(card !== card1)
                     card.classList.remove('selectedCard');
-                });
-                card.classList.toggle('selectedCard');
-            } else {
-                card.classList.remove('selectedCard');
-            }
+            });
+            card1.classList.toggle('selectedCard');
         });
     });
+
+    function convertCamelCaseToNormal(string) {
+        // Split the string into an array of words
+        const words = string.match(/[A-Za-z][a-z]*/g);
+
+        // Capitalize the first letter of each word and join them together
+        return words.map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+    }
+
+    var nextButton = document.getElementById("nextButton");
+    nextButton.addEventListener('click', function (e){
+        e.preventDefault();
+        var selectedCard = document.getElementsByClassName('selectedCard')[0];
+        if(selectedCard === undefined)
+            return;
+        var title = selectedCard.getAttribute('id');
+        form.innerHTML = "<x-restaurant-form/>";
+    });
+
 </script>
 
 </body>
