@@ -1,10 +1,31 @@
 #text-over-img{
     position: relative;
-    top: -400px;
+    top: -600px;
     /*left: 150px;*/
     float: right;
+    margin-right: 30px;
+    text-wrap: normal;
+    text-align: right;
+    width: 500px;
 }
-#text-over-img p {
+lottie-player {
+    position: relative;
+    top: -250px;
+    z-index: 0;
+    float: left;
+    margin-left: 30px;
+    width: 500px;
+    height: 500px;
+}
+#ourMission {
+    text-align: center;
+    margin: 0 auto;
+
+}
+nav {
+    color: #272B30;
+}
+#text-over-img p:first-child {
     font-family: 'figtree', sans-serif;
     font-size: 3rem;
     font-weight: 600;
@@ -12,5 +33,39 @@
 }
 #home-pic-caption {
     z-index: 1;
-    color: #687a7f;
+    color: #272B30;
+}
+.btn-green {
+    background-color: #50723C;
+    color: white;
+}
+.btn-green:hover {
+    color: #50723C;
+    background-color: white;
+    border-color: #50723C;
+}
+.btn-gunmetal {
+    background-color: #272B30;
+    color: white;
+}
+.btn-gunmetal:hover {
+    color: #272B30;
+    background-color: white;
+    border-color: #272B30;
+}
+.btn-orange {
+    background-color: #F18F01;
+    color: white;
+}
+.btn-orange:hover {
+    color: #F18F01;
+    background-color: white;
+    border-color: #F18F01;
+}
+#get-started-btn {
+    float: right;
+}
+
+.btn {
+    transition: all .5s;
 }

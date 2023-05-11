@@ -47,21 +47,43 @@
                     </li>
                 </ul>
                 <div class="d-flex">
-                    <button class="btn btn-success mx-3 px-3" id="loginButton">Login</button>
-                    <button class="btn btn-outline-success" id="signUpButton">Sign Up</button>
+                    <button class="btn btn-orange mx-3 px-3" id="loginButton" onclick="{{ route('loginUser') }}">Login</button>
+                    <button class="btn btn-gunmetal" id="signUpButton">Sign Up</button>
                 </div>
             </div>
         </div>
     </nav>
 
     <div class="container-fluid">
-        <img src="{{ asset('images/home-image.jpg') }}" class="img-fluid d-block" style="max-width: 80%; z-index: 0" alt="Image">
+        <img src="{{ asset('images/home-image.jpg') }}" class="img-fluid d-block" style="max-width: 80%; z-index: 0" alt="Image" id="bg-image">
         <div id="text-over-img">
-            <p class="carousel-caption h1 text-end" id="home-pic-caption">Donate to save lives</p>
-            <button class="btn btn-primary">Get Started</button>
+            <p class=" h1" id="home-pic-caption">Donate to save lives</p>
+            <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            <button class="btn btn-green" id="get-started-btn">Get Started</button>
         </div>
     </div>
 
+    <div class="container-fluid text-center">
+        <p class="display-1">Our Mission</p>
+    </div>
+
+    <br>
+
+    <div class="container">
+        <div class="row">
+            <div class="col" id="missionText">
+                <p class="lead">Our mission at MealShare is to connect restaurants, grocery stores, food banks, and charitable organizations in a seamless and efficient manner, fostering a community dedicated to reducing food waste and ensuring access to nutritious meals for those in need. We strive to empower businesses and organizations to make a tangible impact by streamlining food donations, promoting sustainability, and raising awareness about the importance of food security. Through our innovative platform, we aim to inspire collective action and create a world where everyone has the resources to live a healthy, nourished life.</p>
+            </div>
+
+
+
+        </div>
+
+
+    </div>
+
     </body>
+
+    <script src="{{ asset('js/home.js') }}"></script>
 
 </html>
