@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use \App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,3 +21,9 @@ Route::get('/', function () {
 Route::get('/loginUser', function (){
     return view('login');
 })->name('loginUser');
+
+Route::controller(UserController::class)->group(function (){
+    Route::get('/registerUser', 'register')->name('registerUser');
+});
+
+//Route::get('/registerUser', UserController::)->name('registerUser');

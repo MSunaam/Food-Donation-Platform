@@ -20,8 +20,8 @@
                 </li>
             </ul>
             <div class="d-flex">
-                <button class="btn btn-orange mx-3 px-3" id="loginButton" onclick="{{ route('loginUser') }}">Login</button>
-                <button class="btn btn-gunmetal" id="signUpButton">Sign Up</button>
+                <button class="btn btn-orange mx-3 px-3" id="loginButton">Login</button>
+                <button class="btn btn-gunmetal" id="registerButton">Register</button>
             </div>
         </div>
     </div>
