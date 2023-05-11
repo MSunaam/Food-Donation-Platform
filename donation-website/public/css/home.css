@@ -35,37 +35,3 @@ nav {
     z-index: 1;
     color: #272B30;
 }
-.btn-green {
-    background-color: #50723C;
-    color: white;
-}
-.btn-green:hover {
-    color: #50723C;
-    background-color: white;
-    border-color: #50723C;
-}
-.btn-gunmetal {
-    background-color: #272B30;
-    color: white;
-}
-.btn-gunmetal:hover {
-    color: #272B30;
-    background-color: white;
-    border-color: #272B30;
-}
-.btn-orange {
-    background-color: #F18F01;
-    color: white;
-}
-.btn-orange:hover {
-    color: #F18F01;
-    background-color: white;
-    border-color: #F18F01;
-}
-#get-started-btn {
-    float: right;
-}
-
-.btn {
-    transition: all .5s;
-}

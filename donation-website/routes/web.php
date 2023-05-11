@@ -24,6 +24,5 @@ Route::get('/loginUser', function (){
 
 Route::controller(UserController::class)->group(function (){
     Route::get('/registerUser', 'register')->name('registerUser');
+    Route::post('/registerUser', 'create')->name('createUser');
 });
-
-//Route::get('/registerUser', UserController::)->name('registerUser');
