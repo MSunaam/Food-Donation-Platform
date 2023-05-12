@@ -26,3 +26,7 @@ Route::controller(UserController::class)->group(function (){
     Route::get('/registerUser', 'register')->name('registerUser');
     Route::post('/registerUser', 'create')->name('createUser');
 });
+
+Route::get('/dashboard', function () {
+    return view('users.dashboard');
+})->name('dashboard');

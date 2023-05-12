@@ -14,7 +14,6 @@ class resturantForm extends Component
     public function __construct()
     {
         //
-        $id = $this->id;
 
     }
 
@@ -23,6 +22,6 @@ class resturantForm extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.resturant-form');
+        return view('components.restaurant-form');
     }
 }

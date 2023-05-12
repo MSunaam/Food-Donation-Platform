@@ -1,29 +1,36 @@
+:root {
+    --green: #50723C;
+    --gunmetal: #272B30;
+    --orange: #F18F01;
+}
+
+
 .btn-green {
-    background-color: #50723C;
+    background-color: var(--green);
     color: white;
 }
 .btn-green:hover {
-    color: #50723C;
+    color: var(--green);
     background-color: white;
-    border-color: #50723C;
+    border-color: var(--green);
 }
 .btn-gunmetal {
-    background-color: #272B30;
+    background-color: var(--gunmetal);
     color: white;
 }
 .btn-gunmetal:hover {
-    color: #272B30;
+    color: var(--gunmetal);
     background-color: white;
-    border-color: #272B30;
+    border-color: var(--gunmetal);
 }
 .btn-orange {
-    background-color: #F18F01;
+    background-color: var(--orange);
     color: white;
 }
 .btn-orange:hover {
-    color: #F18F01;
+    color: var(--orange);
     background-color: white;
-    border-color: #F18F01;
+    border-color: var(--orange);
 }
 #get-started-btn {
     float: right;
