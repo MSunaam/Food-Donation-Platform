@@ -21,7 +21,7 @@
     <div class="d-flex flex-grow-1 justify-content-center align-items-center">
         <div class="w-50 h-50 justify-content-center flex-column text-center" id="registerBox">
             <div class="container m-3">
-                <form action="{{ route('createUser') }}" method="post" id="registerForm" autocomplete="on" class="needs-validation" novalidate>
+                <form action="{{ route('createUser') }}" method="post" id="loginForm" autocomplete="on" class="needs-validation" novalidate>
                 @csrf
 
                     <div id="formFieldContainer">
@@ -42,18 +42,56 @@
                         </div>
                         <div class="row mt-3 mx-3">
                             <div class="row justify-content-between">
-                                <div class="col-6"><button class="btn btn-green" id="submitForm">Login</button></div>
+                                <div class="col-6">
+                                    <button class="btn btn-green" id="submitForm">Login</button>
+                                </div>
                             </div>
                         </div>
-
                     </div>
-
-
                 </form>
+                <div class="lead">
+                    <a href="{{ route('registerUser') }}">Don't have an account?</a>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    var submitButton = document.getElementById('submitForm');
+    var form = document.getElementById('loginForm');
+    submitButton.addEventListener('click', function (e) {
+        e.preventDefault();
+        var formData = new FormData(form);
+
+        $.ajax({
+            url: "{{ route('createUser') }}",
+            type: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                console.log(response);
+                window.location.href = "{{ route('dashboard') }}";
+            },
+            error: function (response) {
+                console.log(response);
+                var errors = response.responseJSON.errors;
+                var errorDiv = document.querySelector("#errorDiv");
+                errorDiv.style.color = 'red';
+
+                for(var key in errors){
+                    errorDiv.innerHTML = errors[key][0];
+                    errorDiv.classList.remove('d-none');
+                    break;
+                }
+
+            }
+        });
+
+    });
+
+</script>
 
 </body>
 

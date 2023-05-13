@@ -27,6 +27,7 @@ Route::controller(UserController::class)->group(function (){
     Route::post('/registerUser', 'create')->name('createUser');
     Route::get('/logout', 'logout')->name('logout');
     Route::get('/login', 'login')->name('login');
+    Route::get('/authenticate', 'authenticate')->name('authenticate');
 })->middleware('auth');
 
 Route::get('/dashboard', function () {

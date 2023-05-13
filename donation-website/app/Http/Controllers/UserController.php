@@ -52,4 +52,19 @@ class UserController extends Controller
         return view('users.login');
     }
 
+    public function authenticate(Request $request) {
+
+        $formFields = $request->validate([
+            'name' => 'required',
+            'email' => ['required', 'email']
+        ]);
+
+        if(auth()->attempt($formFields)){
+            $request->session()->regenerate();
+
+            return redirect('dashboard')->with('message', 'Successfully Logged In');
+        }
+
+    }
+
 }
