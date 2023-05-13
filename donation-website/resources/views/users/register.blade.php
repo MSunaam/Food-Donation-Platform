@@ -24,7 +24,6 @@
                     <form action="{{ route('createUser') }}" method="post" id="registerForm" autocomplete="on" class="needs-validation" novalidate>
                         @csrf
                         <div class="mb-3" id="question1">
-                            <p class="display-6 alert d-none" id="errorDiv">Unknown Error Occurred</p>
                             <p class="display-5" id="heading">What do you want to register?</p>
                             <div class="row px-2 my-4">
                                 <x-lottie-card id="foodBank" title="Food Bank" link="https://assets9.lottiefiles.com/packages/lf20_g6nvbpri.json"/>
@@ -35,16 +34,16 @@
 
                             </div>
 
-                            <button class="btn btn-green" id="nextButton">Next</button>
+                            <button class="btn btn-green px-4" id="nextButton">Next</button>
                         </div>
 
                         <x-restaurant-form/>
 
-                        @if($errors->has('email'))
-                            <div class="alert alert-danger">{{ $errors->first('email') }}</div>
-                        @endif
-
                     </form>
+
+                    <p class="lead alert d-none my-3" id="errorDiv"></p>
+
+
                 </div>
 
             </div>
@@ -189,12 +188,19 @@
             },
             error: function (response) {
                 console.log(response);
-                console.log(response.responseJSON.errors);
+                var errors = response.responseJSON.errors;
                 var errorDiv = document.querySelector("#errorDiv");
-                errorDiv.classList.remove('d-none');
-                errorDiv.style.display = "block";
+                errorDiv.style.color = 'red';
+
+                for(var key in errors){
+                    errorDiv.innerHTML = errors[key][0];
+                    errorDiv.classList.remove('d-none');
+                    break;
+                }
+
             }
         });
+
     });
 
 </script>

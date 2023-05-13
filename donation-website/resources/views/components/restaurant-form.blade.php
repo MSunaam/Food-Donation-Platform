@@ -5,9 +5,6 @@
         <div class="col-sm-6">
             <input type="text" class="form-control mt-3" id="name" name="name" placeholder="" required>
             <label for="name" class="error fail-alert"></label>
-            @error('name')
-                <div class="alert alert-danger">{{ $message }}</div>
-            @enderror
         </div>
     </div>
     <div class="row justify-content-center">
@@ -15,9 +12,6 @@
         <div class="col-sm-6">
             <input type="email" class="form-control mt-3" id="email" name="email" placeholder="yourEmail@meow.com" required>
             <label for="email" class="error fail-alert"></label>
-            @error('email')
-            <div class="alert alert-danger">{{ $message }}</div>
-            @enderror
         </div>
     </div>
     <div class="row justify-content-center">
@@ -25,9 +19,6 @@
         <div class="col-sm-6">
             <input type="password" class="form-control mt-3" id="password" name="password" placeholder="" required>
             <label for="password" class="error fail-alert"></label>
-            @error('password')
-            <div class="alert alert-danger">{{ $message }}</div>
-            @enderror
         </div>
     </div>
     <div class="row justify-content-center">
@@ -35,9 +26,6 @@
         <div class="col-sm-6">
             <input type="password" class="form-control mt-3" id="confirm_password" name="confirm_password" placeholder="" required>
             <label for="confirm_password" class="error fail-alert"></label>
-            @error('confirm_password')
-            <div class="alert alert-danger">{{ $message }}</div>
-            @enderror
         </div>
     </div>
     <div class="row justify-content-center">
@@ -45,9 +33,6 @@
         <div class="col-sm-6">
             <input type="text" class="form-control mt-3" id="address" name="address" placeholder="Address" required>
             <label for="address" class="error fail-alert"></label>
-            @error('address')
-            <div class="alert alert-danger">{{ $message }}</div>
-            @enderror
         </div>
     </div>
     <div class="row justify-content-center">
@@ -55,16 +40,16 @@
         <div class="col-sm-6">
             <input type="text" class="form-control mt-3" id="phone" name="phone_number" placeholder="+9200000000" required>
             <label for="phone_number" class="error fail-alert"></label>
-            @error('phone')
-            <div class="alert alert-danger">{{ $message }}</div>
-            @enderror
         </div>
     </div>
 
-    <div class="row justify-content-end mt-3 mx-3">
-            <div class="col-2">
-                <button class="btn btn-green" id="submitForm">Register</button>
-            </div>
+    <div class="row mt-3 mx-3">
+                <div class="row justify-content-between">
+                    <div class="col-6">
+{{--                        <button class="btn btn-gunmetal px-4" id="previous">Back</button>--}}
+                    </div>
+                    <div class="col-6"><button class="btn btn-green" id="submitForm">Register</button></div>
+                </div>
     </div>
 
 </div>

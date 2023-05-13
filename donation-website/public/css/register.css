@@ -74,3 +74,11 @@ input.valid.success-alert {
     color: var(--green);
 }
 
+#previous {
+    float: left;
+    margin-left: 24px;
+}
+#submitForm {
+    float: right;
+}
+

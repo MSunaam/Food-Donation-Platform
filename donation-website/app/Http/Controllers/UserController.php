@@ -33,7 +33,10 @@ class UserController extends Controller
         auth()->login($user);
 
         //Redirect
-        return redirect()->route('dashboard')->with('message', 'User Created Successfully');
+        return redirect()->route('dashboard')
+            ->with('message', 'User Created Successfully')
+            ->with('user', $user);
+
 
     }
 }
