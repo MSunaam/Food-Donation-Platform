@@ -107,7 +107,7 @@
 <script>
     var loginButton = document.getElementById('loginButton');
     loginButton.addEventListener('click', function() {
-        window.location.href = "{{ route('loginUser') }}";
+        window.location.href = "{{ route('login') }}";
     });
     var registerButton = document.getElementById('registerButton');
     registerButton.addEventListener('click', function() {

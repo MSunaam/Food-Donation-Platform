@@ -37,7 +37,7 @@
                             <button class="btn btn-green px-4" id="nextButton">Next</button>
                         </div>
 
-                        <x-restaurant-form/>
+                        <x-register-form/>
 
                     </form>
 
