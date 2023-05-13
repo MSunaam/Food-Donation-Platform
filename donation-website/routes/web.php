@@ -18,6 +18,10 @@ Route::get('/', function () {
     return view('home');
 });
 
+Route::get('/home', function () {
+    return view('home');
+})->name('home.blade.php');
+
 Route::get('/loginUser', function (){
     return view('login');
 })->name('loginUser');
@@ -25,8 +29,9 @@ Route::get('/loginUser', function (){
 Route::controller(UserController::class)->group(function (){
     Route::get('/registerUser', 'register')->name('registerUser');
     Route::post('/registerUser', 'create')->name('createUser');
-});
+    Route::get('/logout', 'logout')->name('logout');
+})->middleware('auth');
 
 Route::get('/dashboard', function () {
     return view('users.dashboard');
-})->name('dashboard');
+})->name('dashboard')->middleware('auth');

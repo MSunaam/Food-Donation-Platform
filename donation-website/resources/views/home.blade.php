@@ -27,6 +27,12 @@
 
 <body>
 
+@auth
+    <script>
+        window.location.href = "{{ route('dashboard') }}";
+    </script>
+@endauth
+
 {{--Navbar Component--}}
 <x-navbar active="home" />
 

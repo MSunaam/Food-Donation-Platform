@@ -43,7 +43,7 @@
             <div class="nav-item dropdown mx-5">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <img src="{{ asset('images/food-bank.png') }}" class="rounded-circle align-middle mb-2" width="30px" height="30px">
-                    <span class=>{{ Auth::user()->name }}</span>
+                     <span class=>{{ Auth::user() ? Auth::user()->name : "Sunaam" }}</span>
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <li>
@@ -54,7 +54,7 @@
                     </li>
                     <li><hr class="dropdown-divider"></li>
                     <li>
-                        <a class="dropdown-item" href="#">
+                        <a class="dropdown-item" href="{{ route('logout') }}">
                             <img src="{{ asset('images/logout.png') }}" class="rounded-circle" width="20px" height="20px">
                             Logout
                         </a>
@@ -67,14 +67,20 @@
 
 <div class="container-fluid mt-5">
     <div class="text-center">
-        <span class="display-6">Welcome, {{ Auth::user()->name }}</span>
+         <span class="display-6">Welcome, {{ Auth::user() ? Auth::user()->name : "Sunaam" }}</span>
     </div>
 </div>
 
-<div class="container" id="dashboardInformation">
-    <div class="row">
-        <div class="col-md-6" id="inventoryInformation">
+<div class="container justify-content-around" id="dashboardInformation">
+    <div class="row justify-content-around">
+        <div class="col-md-5 m-1 borderShadow" id="inventoryInformation">
             <span class="lead">Inventory</span>
+            <div class="container-fluid" id="inventory">
+
+            </div>
+        </div>
+        <div class="col-md-5 m-1 borderShadow" id="scheduleInformation">
+            <span class="lead">Schedule</span>
         </div>
     </div>
 </div>
