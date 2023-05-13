@@ -19,7 +19,7 @@ Route::get('/', function () {
 });
 
 Route::get('/home', function () {
-    return view('home');
+    return view('home')->with('message', 'Please Login');
 })->name('home.blade.php');
 
 Route::get('/loginUser', function (){
