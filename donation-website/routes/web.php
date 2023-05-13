@@ -33,5 +33,5 @@ Route::controller(UserController::class)->group(function (){
 })->middleware('auth');
 
 Route::get('/dashboard', function () {
-    return view('users.dashboard');
+    return view('users.foodBank.dashboard');
 })->name('dashboard')->middleware('auth');
