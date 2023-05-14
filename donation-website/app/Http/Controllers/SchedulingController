@@ -1,0 +1,60 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Scheduling;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
+class SchedulingController extends Controller
+{
+    //
+    public function index()
+    {
+        $items = Scheduling::all();
+        return compact('items');
+    }
+    public function add(Request $request){
+        $item = $request->validate([
+            'donation_id' => 'integer|required',
+            'donor_id' => 'integer|required',
+            'reciever_id' => 'integer|required',
+            'pickup_date' => 'required|date',
+            'pickip_time' => 'required|timestamp',
+            'status' => 'required|string',
+        ]);
+
+        $donation_id = $request->input('donation_id');
+        $donor_id = $request->input('donor_id');
+        $reciever_id = $request->input('reciever_id');
+        $pickup_date = $request->input('pickup_date');
+        $pickup_time = $request->input('pickup_time');
+        $status = $request->input('status');
+        $created_at = Carbon::now()->toDateString();
+        $updated_at = Carbon::now()->toDateString();
+
+        $data = [
+            'donation_id' => $donation_id,
+            'donor_id' => $donor_id,
+            'reciever_id' => $reciever_id,
+            'pickup_date' => $pickup_date,
+            'pickup_time' => $pickup_time,
+            'created_at' => $created_at,
+            'updated_at' => $updated_at,
+            'status' => $status
+        ];
+
+        DB::table('scheduling')->insert($data);
+
+        return response()->json([
+            "error" => false,
+            "message" => "Successfully Entered Data"
+        ]);
+
+
+
+
+    }
+}
+

@@ -36,3 +36,8 @@ Route::get('/dashboard', function () {
 })->name('dashboard')->middleware('auth');
 
 Route::post('/add_item', [FoodItemController::class, 'add'])->name('add_item');
+
+
+Route::post('/add_scheduling', [FoodItemController::class, 'add'])->name('add_shceduling');
+
+

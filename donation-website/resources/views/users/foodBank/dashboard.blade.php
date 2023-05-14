@@ -90,6 +90,12 @@
         </div>
         <div class="col-md-5 m-1 borderShadow" id="scheduleInformation">
             <span class="lead">Schedule</span>
+            <button class="btn btn-gunmetal mb-1 mx-1" id="addSchedulingButton" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Add Items</button>
+            <x-scheduling-modal/>
+
+            <span class="alert alert-success d-none" id="successInventoryMessage">Successfully Added</span>
+
+
         </div>
     </div>
 </div>
@@ -97,7 +103,7 @@
 <script>
     var addItems = document.getElementById('submitForm');
 
-    var addItemButton = document.getElementById('addItemButton');
+    var addItemButton = document.getElementById('addSchedulingButton');
     addItemButton.addEventListener('click', function(){
         $('.modal-backdrop').show()
     })
