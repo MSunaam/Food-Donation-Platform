@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SchedulingController;
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\UserController;
 use App\Http\Controllers\FoodItemController;
@@ -35,9 +36,17 @@ Route::get('/dashboard', function () {
     return view('users.foodBank.dashboard');
 })->name('dashboard')->middleware('auth');
 
+
+
 Route::post('/add_item', [FoodItemController::class, 'add'])->name('add_item');
 
 
-Route::post('/add_scheduling', [FoodItemController::class, 'add'])->name('add_scheduling');
+Route::post('/add_scheduling', [SchedulingController::class, 'add'])->name('add_scheduling');
+
+
+
+Route::get('/gotoschedule', function () {
+    return view('users.dashboardschedule');
+})->name('dashboardschedule');
 
 

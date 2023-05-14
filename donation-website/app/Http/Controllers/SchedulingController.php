@@ -57,10 +57,8 @@ class SchedulingController extends Controller
             "error" => false,
             "message" => "Successfully Entered Data"
         ]);
-
-
-
-
+        
     }
+
 }
 
