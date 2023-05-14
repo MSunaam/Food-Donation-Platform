@@ -17,4 +17,8 @@ class FoodItem extends Model
         'unit',
     ];
 
+    protected $casts = [
+        'quantity' => 'integer',
+    ];
+
 }

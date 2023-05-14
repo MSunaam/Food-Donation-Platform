@@ -13,7 +13,7 @@
 {{--    Scripts--}}
     <x-lottie/>
     <x-ajax/>
-    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.js"></script>
 </head>
 <body>
 
@@ -128,7 +128,7 @@
                 required: true,
                 minlength: 3
             },
-            phone: {
+            phone_number: {
                 required: true,
                 minlength: 10,
                 maxlength: 10,
@@ -163,7 +163,7 @@
                 maxlength: "Phone number must be 10 digits long",
                 number: "Please enter a valid phone number"
             },
-        }
+        },
     });
 
     submitButton.addEventListener('click', function (e) {
@@ -173,35 +173,41 @@
         //     // e.stopPropagation();
         // }
         // form.classList.add('was-validated');});
+        formSubmit();
+    });
+
+    function formSubmit() {
         var formData = new FormData(document.querySelector('form'));
         formData.set('user_type', (title));
         console.log(formData);
-        $.ajax({
-            url: "{{ route('createUser') }}",
-            type: "POST",
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function (response) {
-                console.log(response);
-                window.location.href = "{{ route('dashboard') }}";
-            },
-            error: function (response) {
-                console.log(response);
-                var errors = response.responseJSON.errors;
-                var errorDiv = document.querySelector("#errorDiv");
-                errorDiv.style.color = 'red';
 
-                for(var key in errors){
-                    errorDiv.innerHTML = errors[key][0];
-                    errorDiv.classList.remove('d-none');
-                    break;
+        if($('#registerForm').valid()){
+            $.ajax({
+                url: "{{ route('createUser') }}",
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    console.log(response);
+                    window.location.href = "{{ route('dashboard') }}";
+                },
+                error: function (response) {
+                    console.log(response);
+                    var errors = response.responseJSON.errors;
+                    var errorDiv = document.querySelector("#errorDiv");
+                    errorDiv.style.color = 'red';
+
+                    for(var key in errors){
+                        errorDiv.innerHTML = errors[key][0];
+                        errorDiv.classList.remove('d-none');
+                        break;
+                    }
+
                 }
-
-            }
-        });
-
-    });
+            });
+        }
+    }
 
 </script>
 

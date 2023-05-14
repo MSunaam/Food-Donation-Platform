@@ -29,51 +29,6 @@ lottie-player{
     box-sizing: border-box;
 }
 
-textarea:focus,
-input[type="text"]:focus,
-input[type="password"]:focus,
-input[type="datetime"]:focus,
-input[type="datetime-local"]:focus,
-input[type="date"]:focus,
-input[type="month"]:focus,
-input[type="time"]:focus,
-input[type="week"]:focus,
-input[type="number"]:focus,
-input[type="email"]:focus,
-input[type="url"]:focus,
-input[type="search"]:focus,
-input[type="tel"]:focus,
-input[type="color"]:focus,
-.uneditable-input:focus {
-    border-color: var(--green);
-    box-shadow: 0 1px 1px var(--green) inset, 0 0 8px var(--green);
-    outline: 0 none;
-}
-
-label.error{
-    color:red;
-    font-size: 0.7rem;
-    padding-left: 5px;
-    float: left;
-}
-
-input.error {
-    border-color: red;
-    box-shadow: 0 1px 1px red inset, 0 0 2px red;
-    outline: 0 none;
-    color: red;
-
-}
-input.success{
-    border-color: var(--green);
-    box-shadow: 0 1px 1px var(--green) inset, 0 0 8px var(--green);
-    outline: 0 none;
-}
-
-input.valid.success-alert {
-    color: var(--green);
-}
-
 #previous {
     float: left;
     margin-left: 24px;

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\UserController;
+use App\Http\Controllers\FoodItemController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,9 +28,11 @@ Route::controller(UserController::class)->group(function (){
     Route::post('/registerUser', 'create')->name('createUser');
     Route::get('/logout', 'logout')->name('logout');
     Route::get('/login', 'login')->name('login');
-    Route::get('/authenticate', 'authenticate')->name('authenticate');
+    Route::post('/authenticate', 'authenticate')->name('authenticate');
 })->middleware('auth');
 
 Route::get('/dashboard', function () {
     return view('users.foodBank.dashboard');
 })->name('dashboard')->middleware('auth');
+
+Route::post('/add_item', [FoodItemController::class, 'add'])->name('add_item');
