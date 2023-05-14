@@ -15,9 +15,11 @@ return new class extends Migration
             $table->id();
             $table->integer('donation_id')->nullable(false);
             $table->integer('donor_id')->nullable(false);
+            $table->string('food_name')->nullable(false);
+            $table->string('food_category')->nullable(false);
             $table->integer('reciever_id')->nullable(false);
-            $table->date('pickup_date');
-            $table->timestamp('pickup_time');
+            $table->date('pickup_date')->nullable(false);
+            $table->timestamp('pickup_time')->nullable(false);
             $table->string('status');
             $table->timestamps();
         });

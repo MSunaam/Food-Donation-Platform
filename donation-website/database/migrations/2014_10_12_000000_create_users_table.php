@@ -19,10 +19,10 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('phone_number');
             $table->string('address');
-            $table->string('city');
-            $table->string('state');
-            $table->string('zip_code');
-            $table->string('country');
+            $table->string('city')->nullable()->default('');
+            $table->string('state')->nullable()->default('');
+            $table->string('zip_code')->nullable()->default('');
+            $table->string('country')->nullable()->default('');
             $table->timestamps();
         });
     }
