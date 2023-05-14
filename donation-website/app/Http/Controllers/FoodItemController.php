@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\FoodItem;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class FoodItemController extends Controller
@@ -51,9 +52,15 @@ class FoodItemController extends Controller
             "error" => false,
             "message" => "Successfully Entered Data"
         ]);
+    }
 
+    public function getCategoryInfo() {
 
+        $id = Auth::user()->id;
 
+        $categories = DB::table('food_item')
+            ->where('foodBankId', '=', $id)
+            ->select(DB::raw('sum("quantity") as quantity, food_category'))->groupBy('food_category')->get();
 
     }
 }

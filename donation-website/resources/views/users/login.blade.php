@@ -116,7 +116,7 @@
                 Accept: 'application/json',
                 success: function (response) {
                     // console.log(response);
-                    {{--window.location.href = "{{ route('dashboard') }}";--}}
+                    window.location.href = "{{ route('dashboard') }}";
                 },
                 error: function (response) {
                     var errors = response.responseJSON.message;
