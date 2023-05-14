@@ -36,3 +36,5 @@ Route::get('/dashboard', function () {
 })->name('dashboard')->middleware('auth');
 
 Route::post('/add_item', [FoodItemController::class, 'add'])->name('add_item');
+
+Route::get('abcd', [FoodItemController::class, 'getCategoryInfo'])->name('abcd');

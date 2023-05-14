@@ -58,9 +58,12 @@ class FoodItemController extends Controller
 
         $id = Auth::user()->id;
 
-        $categories = DB::table('food_item')
+        $categories = DB::table('food_items')
+            ->select(DB::raw('sum(quantity) as quantity, food_category'))
             ->where('foodBankId', '=', $id)
-            ->select(DB::raw('sum("quantity") as quantity, food_category'))->groupBy('food_category')->get();
+            ->groupBy('food_category')->get();
+
+        return $categories;
 
     }
 }
