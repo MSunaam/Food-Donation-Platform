@@ -38,6 +38,6 @@ Route::get('/dashboard', function () {
 Route::post('/add_item', [FoodItemController::class, 'add'])->name('add_item');
 
 
-Route::post('/add_scheduling', [FoodItemController::class, 'add'])->name('add_shceduling');
+Route::post('/add_scheduling', [FoodItemController::class, 'add'])->name('add_scheduling');
 
 

@@ -82,91 +82,18 @@
 
             <button class="btn btn-gunmetal mb-1 mx-1" id="addItemButton" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Add Items</button>
             <x-inventory-modal/>
-
             <span class="alert alert-success d-none" id="successInventoryMessage">Successfully Added</span>
-
-
-
         </div>
-        <div class="col-md-5 m-1 borderShadow" id="scheduleInformation">
-            <span class="lead">Schedule</span>
-            <button class="btn btn-gunmetal mb-1 mx-1" id="addSchedulingButton" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Add Items</button>
-            <x-scheduling-modal/>
 
+        <div class="col-md-5 m-1 borderShadow" id="schedulingInformation">
+            <span class="lead">Inventory</span>
 
-
-<!-- Modal -->
-<div class="modal fade" id="staticBackdrop" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">Scheduling</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-
-                <form action="{{ route('add_scheduling') }}" method="post" id="addScheduling" autocomplete="on" class="needs-validation" novalidate>
-                    @csrf
-                    <div id="questions">
-
-                        <div class="row justify-content-center">
-                            <label for="food_name" class="col-md-3 col-form-label mt-3">Food Name</label>
-                            <div class="col-sm-6">
-                                <input type="text" class="form-control mt-3" id="food_name" name="food_name" placeholder="Food Name" required>
-                                <label for="food_name" class="error fail-alert"></label>
-                            </div>
-                        </div>
-
-                        <div class="row justify-content-center">
-                            <label for="food_category" class="col-md-3 col-form-label mt-3">Food Category</label>
-                            <div class="col-sm-6">
-                                <input type="text" class="form-control mt-3" id="food_category" name="food_category" placeholder="Category" required>
-                                <label for="food_category" class="error fail-alert"></label>
-                            </div>
-                        </div>
-
-                        <div class="row justify-content-center">
-                            <label for="expiration_date" class="col-md-3 col-form-label mt-3">Scheduling Date</label>
-                            <div class="col-sm-6">
-                                <input type="date" class="form-control mt-3" id="expiration_date" name="expiration_date" placeholder="" required>
-                                <label for="expiration_date" class="error fail-alert"></label>
-                            </div>
-                        </div>
-
-                        <div class="row justify-content-center">
-                            <label for="quantity" class="col-md-3 col-form-label mt-3">Quantity</label>
-                            <div class="col-sm-6">
-                                <input type="number" class="form-control mt-3" id="quantity" name="quantity" placeholder="" required>
-                                <label for="quantity" class="error fail-alert"></label>
-                            </div>
-                        </div>
-
-                        <div class="row justify-content-center">
-                            <label for="pickup_date_date" class="col-md-3 col-form-label mt-3">pickup_date</label>
-                            <div class="col-sm-6">
-                                <input type="date" class="form-control mt-3" id="pickup_date" name="pickup_date" placeholder="" required>
-                                <label for="pickup_date" class="error fail-alert"></label>
-                            </div>
-                        </div>
-
-                        <div class="row justify-content-center">
-                            <label for="pickup_time" class="col-md-3 col-form-label mt-3">pickup_time</label>
-                            <div class="col-sm-6">
-                                <input type="time" class="form-control mt-3" id="pickup_time" name="pickup_time" placeholder="" required>
-                                <label for="pickup_time" class="error fail-alert"></label>
-                            </div>
-                        </div>
-                        
-
-                    </div>
-                </form>
-
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-gunmetal" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-orange" id="submitForm">Add Items</button>
-            </div>
+            <button class="btn btn-gunmetal mb-1 mx-1" id="addschedulingButton" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Add Items</button>
+            <x-inventory-modal/>
+            <span class="alert alert-success d-none" id="successschedulingMessage">Successfully Added</span>
+        </div>
+    </div>
+</div>
         </div>
     </div>
 </div>
@@ -177,18 +104,11 @@
 
 
 
-
-            <span class="alert alert-success d-none" id="successInventoryMessage">Successfully Added</span>
-
-
-        </div>
-    </div>
-</div>
 <!-- script for additem inventory  -->
 <script>
     var addItems = document.getElementById('submitForm');
 
-    var addItemButton = document.getElementById('addSchedulingButton');
+    var addItemButton = document.getElementById('addItemButton');
     addItemButton.addEventListener('click', function(){
         $('.modal-backdrop').show()
     })
@@ -280,15 +200,7 @@
                 },
                 error: function (response) {
                     console.log(response);
-                    // var errors = response.responseJSON.errors;
-                    // var errorDiv = document.querySelector("#errorDiv");
-                    // errorDiv.style.color = 'red';
-                    //
-                    // for(var key in errors){
-                    //     errorDiv.innerHTML = errors[key][0];
-                    //     errorDiv.classList.remove('d-none');
-                    //     break;
-                    // }
+                    
 
                 }
             })
@@ -301,17 +213,23 @@
 
 <!-- script for add scheduling  -->
 <script>
-    var addItems = document.getElementById('submitForm');
+    var addItems = document.getElementById('submitFormsc');
 
     var addItemButton = document.getElementById('addSchedulingButton');
     addItemButton.addEventListener('click', function(){
         $('.modal-backdrop').show()
     })
 
-    $("#addItem").validate({
+    $("#addScheduling").validate({
         errorClass: 'error fail-alert',
         validClass: 'valid success-alert',
         rules: {
+            donor_id : {
+                required: true,
+            },
+            reciever_id : {
+                required: true,
+            },
             food_name : {
                 required: true,
                 minlength: 3
@@ -320,15 +238,15 @@
                 required: true,
                 minlength: 3
             },
-            expiration_date : {
+            pickup_date : {
                 required: true,
                 date: true
             },
-            quantity : {
+            pickup_time : {
                 required: true,
                 number: true
             },
-            unit: {
+            status: {
                 required: true,
                 minlength: 1,
             },
@@ -342,27 +260,27 @@
                 required: 'Please enter category',
                 min: 'Please enter at least 3 characters'
             },
-            expiration_date : {
-                required: 'Please enter an expiration date',
+            pickup_date : {
+                required: 'Please enter pickup date',
                 date: 'Please enter a valid date'
             },
-            quantity : {
-                required: 'Please enter quantity',
+            pickup_time : {
+                required: 'Please enter pickup time',
                 number: 'Please enter a valid number'
             },
-            unit: {
-                required: 'Please enter a unit',
-                minlength: 'Please enter at least 1 character'
+            status: {
+                required: 'Please select status',
+                // minlength: 'Please enter at least 1 character'
             },
         },
     });
 
     addItems.addEventListener('click', function(e) {
         e.preventDefault();
-        var form = document.getElementById('addItem');
+        var form = document.getElementById('addScheduling');
         var formData = new FormData(form);
 
-        formData.set('foodBankId', '{{ Auth::user()->id }}');
+        formData.set('donation_id', '{{ Auth::user()->id }}');
 
         var myModalEl = document.querySelector('#staticBackdrop');
         var myModal = bootstrap.Modal.getOrCreateInstance(myModalEl);
@@ -371,9 +289,9 @@
             $('#successInventoryMessage').addClass('d-none');
         }
 
-        if($('#addItem').valid()){
+        if($('#addScheduling').valid()){
             $.ajax({
-                url: "{{ route('add_item') }}",
+                url: "{{ route('add_scheduling') }}",
                 type: "POST",
                 data: formData,
                 processData: false,
@@ -395,15 +313,7 @@
                 },
                 error: function (response) {
                     console.log(response);
-                    // var errors = response.responseJSON.errors;
-                    // var errorDiv = document.querySelector("#errorDiv");
-                    // errorDiv.style.color = 'red';
-                    //
-                    // for(var key in errors){
-                    //     errorDiv.innerHTML = errors[key][0];
-                    //     errorDiv.classList.remove('d-none');
-                    //     break;
-                    // }
+                    
 
                 }
             })
