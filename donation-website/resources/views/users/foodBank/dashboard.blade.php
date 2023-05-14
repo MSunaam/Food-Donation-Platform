@@ -17,6 +17,8 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+{{--    Pie Chart--}}
+
 
 </head>
 <body>
@@ -90,11 +92,28 @@
         </div>
         <div class="col-md-5 m-1 borderShadow" id="scheduleInformation">
             <span class="lead">Schedule</span>
+
+            <button class="btn btn-gunmetal mb-1 mx-1" id="addScheduleButton" data-bs-toggle="modal2" data-bs-target="#staticBackdrop2">Schedule</button>
+            <x-schedule-modal/>
+
+
         </div>
     </div>
 </div>
 
 <script>
+
+    var modal2Button = document.getElementById('addScheduleButton');
+
+    var myModalEl2 = document.querySelector('#staticBackdrop2');
+    var myModal2 = bootstrap.Modal.getOrCreateInstance(myModalEl2);
+
+    modal2Button.addEventListener('click', function() {
+        $('.modal-backdrop').show();
+        myModal2.show();
+    });
+
+
     var addItems = document.getElementById('submitForm');
 
     var addItemButton = document.getElementById('addItemButton');
@@ -178,7 +197,7 @@
                         $('#successInventoryMessage').removeClass('d-none');
 
 
-                        var timeout = setTimeout(hideSuccess, 1000);
+                        var timeout = setTimeout(hideSuccess, 2000);
                         // clearTimeout(timeout);
 
 

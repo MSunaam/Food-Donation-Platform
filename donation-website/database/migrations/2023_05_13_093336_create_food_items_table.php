@@ -14,11 +14,15 @@ return new class extends Migration
         Schema::create('food_items', function (Blueprint $table) {
                 $table->id();
                 $table->string('food_name');
-                $table->string('food_category');
+                $table->enum('food_category', ['Produce', 'Grains', 'Dairy', 'Meat', 'Packaged', 'Beverages', 'Condiments', 'Frozen']);
                 $table->date('expiration_date');
                 $table->integer('quantity');
                 $table->string('unit');
+                $table->foreignId('foodBankId')->constrained(
+                    table: 'users', indexName: 'id'
+                );
                 $table->timestamps();
+
         });
     }
 
