@@ -86,10 +86,10 @@
         </div>
 
         <div class="col-md-5 m-1 borderShadow" id="schedulingInformation">
-            <span class="lead">Inventory</span>
+            <span class="lead">Schedule</span>
 
             <button class="btn btn-gunmetal mb-1 mx-1" id="addschedulingButton" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Add Items</button>
-            <x-inventory-modal/>
+            <y-scheduling-modal/>
             <span class="alert alert-success d-none" id="successschedulingMessage">Successfully Added</span>
         </div>
     </div>

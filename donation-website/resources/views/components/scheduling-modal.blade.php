@@ -1,5 +1,5 @@
 <!-- Modal -->
-<div class="modal fade" id="staticBackdrop" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="staticBackdrop"  tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -10,7 +10,7 @@
 
                 <form action="{{ route('add_scheduling') }}" method="post" id="addScheduling" autocomplete="on" class="needs-validation" novalidate>
                     @csrf
-                    <div id="questionssc">
+                    <div id="questions">
 
                         <div class="row justify-content-center">
                             <label for="food_name" class="col-md-3 col-form-label mt-3">Food Name</label>
@@ -61,7 +61,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-gunmetal" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-orange" id="submitFormsc">Add Items</button>
+                <button type="button" class="btn btn-orange" id="submitForm">Add Items</button>
             </div>
         </div>
     </div>
