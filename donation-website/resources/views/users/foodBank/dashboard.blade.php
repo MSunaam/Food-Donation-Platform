@@ -87,9 +87,44 @@
 
             <span class="alert alert-success d-none" id="successInventoryMessage">Successfully Added</span>
 
+            <div class="row justify-content-center mt-3">
+                <canvas id="myChart" width="300px"></canvas>
+            </div>
 
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+            <script>
+
+                var arrQuantity = [];
+                var arrName = [];
+
+                @foreach($quantities as $quantity)
+                arrQuantity.push({{ $quantity->quantity }});
+                arrName.push('{{ $quantity->food_category }}');
+                // arrName
+                @endforeach
+
+                const ctx = document.getElementById('myChart');
+
+                new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                        // labels: ['Produce', 'Grains', 'Dairy', 'Meat', 'Packaged', 'Beverages', 'Condiments', 'Frozen'],
+                        labels : arrName,
+                        datasets: [{
+                            label: 'Food Quantity',
+                            // data: [12, 19, 3, 5, 2, 3],
+                            data: arrQuantity,
+                            borderWidth: 1
+                        }]
+                    },
+                    options : {
+                        responsive: false
+                    }
+                });
+            </script>
         </div>
+
         <div class="col-md-5 m-1 borderShadow" id="scheduleInformation">
             <span class="lead">Schedule</span>
 
@@ -131,7 +166,6 @@
             },
             food_category: {
                 required: true,
-                minlength: 3
             },
             expiration_date : {
                 required: true,
@@ -153,7 +187,6 @@
             },
             food_category: {
                 required: 'Please enter category',
-                min: 'Please enter at least 3 characters'
             },
             expiration_date : {
                 required: 'Please enter an expiration date',
@@ -174,6 +207,8 @@
         e.preventDefault();
         var form = document.getElementById('addItem');
         var formData = new FormData(form);
+
+        // console.log(formData);
 
         formData.set('foodBankId', '{{ Auth::user()->id }}');
 
@@ -221,6 +256,8 @@
                 }
             })
         }
+
+        var 
 
     });
 

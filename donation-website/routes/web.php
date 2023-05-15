@@ -31,10 +31,9 @@ Route::controller(UserController::class)->group(function (){
     Route::post('/authenticate', 'authenticate')->name('authenticate');
 })->middleware('auth');
 
-Route::get('/dashboard', function () {
-    return view('users.foodBank.dashboard');
-})->name('dashboard')->middleware('auth');
+Route::get('/dashboard', [FoodItemController::class, 'getCategoryInfo'])->name('dashboard')->middleware('auth');
 
 Route::post('/add_item', [FoodItemController::class, 'add'])->name('add_item');
 
-Route::get('abcd', [FoodItemController::class, 'getCategoryInfo'])->name('abcd');
+
+//Route::get('/test', [])

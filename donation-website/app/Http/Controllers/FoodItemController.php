@@ -63,7 +63,8 @@ class FoodItemController extends Controller
             ->where('foodBankId', '=', $id)
             ->groupBy('food_category')->get();
 
-        return $categories;
+
+        return view('users.foodBank.dashboard', ['quantities' => $categories]);
 
     }
 }

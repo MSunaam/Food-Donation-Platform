@@ -21,9 +21,19 @@
                         </div>
 
                         <div class="row justify-content-center">
-                            <label for="food_category" class="col-md-3 col-form-label mt-3">Food Category</label>
+                            <label for="food_category" class="col-md-3 col-form-label mt-3">Category</label>
                             <div class="col-sm-6">
-                                <input type="text" class="form-control mt-3" id="food_category" name="food_category" placeholder="Category" required>
+                                <select class="form-select mt-3" aria-label="Default select example" name="food_category">
+                                    <option selected value="">Food Category</option>
+                                    <option value="Produce">Produce</option>
+                                    <option value="Grains">Grains</option>
+                                    <option value="Dairy">Dairy</option>
+                                    <option value="Meat">Meat</option>
+                                    <option value="Packaged">Packaged</option>
+                                    <option value="Beverages">Beverages</option>
+                                    <option value="Condiments">Condiments</option>
+                                    <option value="Frozen">Frozen</option>
+                                </select>
                                 <label for="food_category" class="error fail-alert"></label>
                             </div>
                         </div>
