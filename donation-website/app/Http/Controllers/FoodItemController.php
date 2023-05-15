@@ -17,6 +17,7 @@ class FoodItemController extends Controller
         return compact('foodItems');
     }
     public function add(Request $request){
+
         $item = $request->validate([
             'food_name' => 'required|min:3|string',
             'food_category' => 'required|string',
@@ -63,12 +64,16 @@ class FoodItemController extends Controller
             ->where('foodBankId', '=', $id)
             ->groupBy('food_category')->get();
 
-        $schedules = DB::table('doantions')
-            ->select('food_name as Food Name, donor_name as Donor Name, status')
-            ->where('')
+        $schedules = DB::table('donations')
+            ->join('users', 'users.id', '=', 'donations.donor_id')
+            ->select('donations.food_name as food_name', 'users.name as donor_name', 'donations.status as status', 'donations.id as donations_id')
+            ->reorder('donations.scheduled_pickup_time', 'desc')
+            ->limit(10)
+            ->get();
 
 
-        return view('users.foodBank.dashboard', ['quantities' => $categories]);
+
+        return view('users.foodBank.dashboard', ['quantities' => $categories, 'schedules' => $schedules]);
 
     }
 }

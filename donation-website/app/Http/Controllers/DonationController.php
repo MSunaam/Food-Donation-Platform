@@ -11,8 +11,9 @@ class DonationController extends Controller
 
     public function addDonation(Request $request){
 
+
         $donation = $request->validate([
-            'donor_id' => 'required|integer',
+            'donor_id' => 'required|integer|exists:users,id',
             'receiver_id' => 'required|integer|different:donor_id',
             'food_name' => 'required',
             'food_category' => 'required',
@@ -42,6 +43,33 @@ class DonationController extends Controller
             "error" => false,
             "message" => "Successfully Entered Data"
         ]);
+
+    }
+
+    public function markComplete(Request $request){
+
+        $request->validate([
+            'donation_id' => 'required|exists:donations,id',
+            'status' => 'required|in:completed,scheduled,cancelled',
+            'actual_pickup_time' =>'required|date'
+        ]);
+
+        $id = $request->donation_id; // Replace 6 with the desired donation ID
+
+        $updateData = [
+            'status' => $request->status,
+            'actual_pickup_time' => $request->actual_pickup_time, // Replace with the desired actual pickup time
+        ];
+
+        $response = DB::table('donations')
+            ->where('id', $id)
+            ->update($updateData);
+
+
+            return response()->json([
+                'error' => false,
+                'message' => 'Success'
+            ]);
 
     }
 }

@@ -1,11 +1,12 @@
 #dashboardInformation {
     width: 90%;
-    height: 500px;
+    /*height: 500px;*/
     border: 1px solid antiquewhite;
     border-radius: 10px;
     padding: 40px;
     box-shadow: 1px 1px 10px 0px rgba(0, 0, 0, 0.5);
     margin: 50px auto 20px;
+    height: auto;
 }
 .borderShadow {
     position: relative;
@@ -15,6 +16,15 @@
     box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.5);
     /*text-align: center;*/
 }
-#inventoryInformation {
+#scheduleInformation {
+    position: relative;
+}
 
+#completeSchedule{
+    position: absolute;
+    bottom: 0;
+}
+
+#completeScheduleButton{
+    right: 0;
 }

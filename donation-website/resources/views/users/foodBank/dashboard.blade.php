@@ -25,6 +25,12 @@
 
 {{--Navbar Component--}}
 
+{{--{{ $schedules }}--}}
+
+{{--@if(Auth::user()->user_type != 'food_bank')--}}
+{{--    <script> window.location.href = "{{ route('home') }}" </script>--}}
+{{--@endif--}}
+
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
@@ -125,13 +131,45 @@
             </script>
         </div>
 
-        <div class="col-md-5 m-1 borderShadow" id="scheduleInformation">
+        <div class="col-md-5 m-1 borderShadow " id="scheduleInformation">
             <span class="lead">Schedule</span>
 
             <button class="btn btn-gunmetal mb-1 mx-1" id="addScheduleButton" data-bs-toggle="modal2" data-bs-target="#modal2">Schedule</button>
+            <button class="btn btn-orange mb-1" id="completeScheduleButton">Mark Complete</button>
             <x-schedule-modal/>
 
+            <span class="text-end blockquote-footer">Latest ten</span>
+
             <span class="alert alert-success d-none" id="successScheduleMessage">Successfully Added</span>
+            <span class="alert alert-success d-none" id="successUpdateMessage">Successfully Updated</span>
+
+            <div class="container-fluid my-3">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Donation Id</th>
+                        <th scope="col">Food Name</th>
+                        <th scope="col">Donor Name</th>
+                        <th scope="col">Status</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    @foreach($schedules as $schedule)
+
+                        <tr>
+                            <th scope="row">{{ $schedule->donations_id }}</th>
+                            <td>{{ $schedule->food_name }}</td>
+                            <td>{{ $schedule->donor_name }}</td>
+                            <td>{{ ucfirst($schedule->status) }}</td>
+                        </tr>
+                    @endforeach
+
+                    </tbody>
+                </table>
+            </div>
+
+            <x-mark-schedule/>
 
 
         </div>
@@ -139,6 +177,111 @@
 </div>
 
 <script>
+
+    var modal3Button = document.getElementById('completeScheduleButton');
+    var myModalEl3 = document.querySelector('#modal3');
+    var myModal3 = bootstrap.Modal.getOrCreateInstance(myModalEl3);
+
+    myModalEl3.addEventListener('hidden.bs.modal', function (){
+        $('#markScheduleError').addClass('d-none');
+    });
+
+    modal3Button.addEventListener('click', function (e){
+        e.preventDefault();
+
+        $('.modal_backdrop').show();
+        myModal3.show();
+
+    });
+
+    function hideUpdate(){
+        $('#successUpdateMessage').addClass('d-none');
+    }
+
+    $("#mark_schedule_form").validate({
+        errorClass: 'error fail-alert',
+        validClass: 'valid success-alert',
+        rules: {
+            donation_id : {
+                required: true,
+                number: true
+            },
+            status : {
+                required: true,
+            },
+            actual_pickup_time : {
+                required: true,
+            }
+        },
+
+        messages : {
+            donation_id : {
+                required: 'Please enter Donation Id',
+                number: 'Please enter a number'
+            },
+            status : {
+                required: 'Please enter a status',
+            },
+            actual_pickup_time : {
+                required: 'Please enter a time',
+            }
+        }
+
+    });
+
+    var changeScheduleButton = document.getElementById('changeStatus');
+
+    changeScheduleButton.addEventListener('click', function (e) {
+        e.preventDefault();
+        var scheduleForm = document.getElementById('mark_schedule_form');
+        var scheduleFormData = new FormData(scheduleForm);
+
+        console.log(scheduleFormData);
+
+        if ($('#mark_schedule_form').valid()) {
+            $.ajax({
+                url: "{{ route('mark_schedule') }}",
+                type: "POST",
+                data: scheduleFormData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+
+                    console.log(response);
+
+                    $('#successUpdateMessage').removeClass('d-none');
+
+                    var timeout = setTimeout(hideUpdate, 2000);
+                    // clearTimeout(timeout);
+
+
+                    myModal3.hide();
+                    $('#scheduleError').addClass('d-none');
+                    $('.modal-backdrop').hide();
+
+                },
+                error: function (response) {
+                    console.log(response);
+                    // console.log(response);
+                    var errors = response.responseJSON.errors;
+                    // console.log(errors);
+                    var errorDiv = document.querySelector("#markScheduleError");
+                    errorDiv.classList.remove('d-none');
+                    errorDiv.style.color = 'red';
+
+                    for (var key in errors) {
+                        errorDiv.innerHTML = errors[key][0];
+                        errorDiv.classList.remove('d-none');
+                        break;
+
+                    }
+                }
+
+            });
+
+        }
+
+    });
 
     $('#scheduleError').addClass('d-none');
 
@@ -345,8 +488,9 @@
 
                 },
                 error: function (response) {
-                    console.log(response);
+                    // console.log(response);
                     var errors = response.responseJSON.errors;
+                    // console.log(errors);
                     var errorDiv = document.querySelector("#scheduleError");
                     errorDiv.classList.remove('d-none');
                     errorDiv.style.color = 'red';

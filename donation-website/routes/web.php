@@ -21,8 +21,8 @@ Route::get('/', function () {
 });
 
 Route::get('/home', function () {
-    return view('home')->with('message', 'Please Login');
-})->name('home.blade.php');
+    return view('home');
+})->name('home');
 
 Route::controller(UserController::class)->group(function (){
     Route::get('/registerUser', 'register')->name('registerUser');
@@ -38,5 +38,5 @@ Route::post('/add_item', [FoodItemController::class, 'add'])->name('add_item')->
 
 Route::post('/add_donation', [DonationController::class, 'addDonation'])->name('add_donation')->middleware('auth');
 
-
+Route::post('/mark_schedule', [DonationController::class, 'markComplete'])->name('mark_schedule')->middleware('auth');
 //Route::get('/test', [])
