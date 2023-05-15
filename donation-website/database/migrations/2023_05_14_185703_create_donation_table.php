@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('donor_id');
             $table->unsignedBigInteger('receiver_id');
-            $table->unsignedBigInteger('food_item_id');
+            $table->string('food_name');
+            $table->enum('food_category', ['Produce', 'Grains', 'Dairy', 'Meat', 'Packaged', 'Beverages', 'Condiments', 'Frozen']);
             $table->enum('status', ['scheduled', 'picked_up', 'cancelled', 'completed']);
             $table->dateTime('scheduled_pickup_time');
             $table->dateTime('actual_pickup_time')->nullable();
@@ -23,7 +24,6 @@ return new class extends Migration
 
             $table->foreign('donor_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('receiver_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('food_item_id')->references('id')->on('food_items')->onDelete('cascade');
         });
     }
 

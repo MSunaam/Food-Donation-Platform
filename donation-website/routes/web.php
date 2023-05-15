@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DonationController;
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\UserController;
 use App\Http\Controllers\FoodItemController;
@@ -33,7 +34,9 @@ Route::controller(UserController::class)->group(function (){
 
 Route::get('/dashboard', [FoodItemController::class, 'getCategoryInfo'])->name('dashboard')->middleware('auth');
 
-Route::post('/add_item', [FoodItemController::class, 'add'])->name('add_item');
+Route::post('/add_item', [FoodItemController::class, 'add'])->name('add_item')->middleware('auth');
+
+Route::post('/add_donation', [DonationController::class, 'addDonation'])->name('add_donation')->middleware('auth');
 
 
 //Route::get('/test', [])

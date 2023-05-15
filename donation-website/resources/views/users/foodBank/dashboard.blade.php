@@ -128,8 +128,10 @@
         <div class="col-md-5 m-1 borderShadow" id="scheduleInformation">
             <span class="lead">Schedule</span>
 
-            <button class="btn btn-gunmetal mb-1 mx-1" id="addScheduleButton" data-bs-toggle="modal2" data-bs-target="#staticBackdrop2">Schedule</button>
+            <button class="btn btn-gunmetal mb-1 mx-1" id="addScheduleButton" data-bs-toggle="modal2" data-bs-target="#modal2">Schedule</button>
             <x-schedule-modal/>
+
+            <span class="alert alert-success d-none" id="successScheduleMessage">Successfully Added</span>
 
 
         </div>
@@ -138,10 +140,16 @@
 
 <script>
 
+    $('#scheduleError').addClass('d-none');
+
     var modal2Button = document.getElementById('addScheduleButton');
 
-    var myModalEl2 = document.querySelector('#staticBackdrop2');
+    var myModalEl2 = document.querySelector('#modal2');
     var myModal2 = bootstrap.Modal.getOrCreateInstance(myModalEl2);
+
+    myModalEl2.addEventListener('hidden.bs.modal', function (){
+        $('#scheduleError').addClass('d-none');
+    });
 
     modal2Button.addEventListener('click', function() {
         $('.modal-backdrop').show();
@@ -237,6 +245,7 @@
 
 
                         myModal.hide();
+                        $('#scheduleError').addClass('d-none');
                         $('.modal-backdrop').hide()
                     }
 
@@ -257,7 +266,102 @@
             })
         }
 
-        var 
+    });
+
+
+
+    $("#add_donation_form").validate({
+        errorClass: 'error fail-alert',
+        validClass: 'valid success-alert',
+        rules: {
+            donor_id : {
+                required: true,
+                number: true,
+            },
+            food_name: {
+                required: true,
+                minlength: 3,
+            },
+            status : {
+                required: true,
+            },
+            scheduled_pickup_time : {
+                required: true,
+            }
+        },
+        messages : {
+            donor_id : {
+                required: 'Please enter a Donor Id',
+                number: 'Please enter a number',
+            },
+            food_name: {
+                required: 'Please enter food name',
+                minlength: 'Please enter at least 3 characters',
+            },
+            status : {
+                required: 'Please select a status',
+            },
+            scheduled_pickup_time : {
+                required: 'Please enter a pickup time',
+            }
+        }
+    });
+
+    function hideSuccessSchedule () {
+        $('#successScheduleMessage').addClass('d-none');
+    }
+
+
+    var addDonation = document.getElementById('addDonation');
+    addDonation.addEventListener('click', function(e){
+        e.preventDefault();
+
+        if($('#add_donation_form').valid()){
+
+            var formSchedule = document.getElementById('add_donation_form');
+            var formDataSchedule = new FormData(formSchedule);
+
+            formDataSchedule.append('receiver_id', '{{ Auth::user()->id }}');
+
+            $.ajax({
+                url: "{{ route('add_donation') }}",
+                type: "POST",
+                data: formDataSchedule,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    if(response['error'] === false){
+
+                        $('#successScheduleMessage').removeClass('d-none');
+
+
+                        var timeout = setTimeout(hideSuccessSchedule, 2000);
+                        // clearTimeout(timeout);
+
+
+                        myModal2.hide();
+                        $('.modal-backdrop').hide()
+                    }
+
+                },
+                error: function (response) {
+                    console.log(response);
+                    var errors = response.responseJSON.errors;
+                    var errorDiv = document.querySelector("#scheduleError");
+                    errorDiv.classList.remove('d-none');
+                    errorDiv.style.color = 'red';
+
+                    for(var key in errors){
+                        errorDiv.innerHTML = errors[key][0];
+                        errorDiv.classList.remove('d-none');
+                        break;
+                    }
+
+                }
+            })
+
+        }
+
 
     });
 
