@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Validation\Rule;
 
-class UserController extends Controller implements MustVerifyEmail
+class UserController extends Controller
 {
     //
     use Notifiable;
@@ -77,23 +77,39 @@ class UserController extends Controller implements MustVerifyEmail
 
     }
 
-    public function hasVerifiedEmail()
-    {
-        // TODO: Implement hasVerifiedEmail() method.
+    public function updateProfile(Request $request){
+
+        $password = Auth::user()->password;
+
+        $request->validate([
+            'name' => 'required|string',
+            'phone_number' => 'required|number',
+            'address' => 'required',
+            'city' => 'required',
+//            'old_password' => 'required|same:' $password,
+            'password'  => Rule::when($request->password != "" or $request->confirm_password != "" , ['min:8', 'same:confirm_password']),
+            'confirm_password'  => Rule::when($request->password != "" or $request->confirm_password != "" , ['min:8', 'same:password'])
+        ]);
+
+        $id = Auth::user()->id;
+
+        DB::table('users')
+            ->where('users.id', $id)
+            ->update([
+                'name' => $request->name,
+                'phone_number' => $request->phone_number,
+                'address' => $request->address,
+                'city' => $request->city
+            ]);
+
+        return response()->json([
+            'error' => false,
+            'message' => 'Successfully Updated'
+        ]);
+
     }
 
-    public function markEmailAsVerified()
-    {
-        // TODO: Implement markEmailAsVerified() method.
-    }
-
-    public function sendEmailVerificationNotification()
-    {
-        // TODO: Implement sendEmailVerificationNotification() method.
-    }
-
-    public function getEmailForVerification()
-    {
-        // TODO: Implement getEmailForVerification() method.
+    public function profileView() {
+        return view('users.profileSettings');
     }
 }

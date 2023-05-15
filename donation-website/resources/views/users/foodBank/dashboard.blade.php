@@ -59,7 +59,7 @@
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <li>
-                        <a class="dropdown-item" href="#">
+                        <a class="dropdown-item" href="{{ route('profile') }}">
                             <img src="{{ asset('images/setting.png') }}" class="rounded-circle" width="20px" height="20px">
                             Profile
                         </a>
@@ -79,7 +79,7 @@
 
 <div class="container-fluid mt-5">
     <div class="text-center">
-         <span class="display-6">Welcome, {{ Auth::user() ? Auth::user()->name : "Sunaam" }}</span>
+         <span class="display-6">Welcome, {{ Auth::user()->name }}</span>
     </div>
 </div>
 

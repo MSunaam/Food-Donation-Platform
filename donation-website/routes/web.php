@@ -30,6 +30,8 @@ Route::controller(UserController::class)->group(function (){
     Route::get('/logout', 'logout')->name('logout');
     Route::get('/login', 'login')->name('login');
     Route::post('/authenticate', 'authenticate')->name('authenticate');
+    Route::get('/profile', 'profileView')->name('profile');
+    Route::post('/updateProfile', 'updateProfile')->name('updateProfile');
 })->middleware('auth');
 
 Route::get('/dashboard', [FoodItemController::class, 'getCategoryInfo'])->name('dashboard')->middleware('auth');
