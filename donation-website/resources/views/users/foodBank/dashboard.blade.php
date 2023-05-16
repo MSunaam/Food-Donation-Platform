@@ -50,7 +50,7 @@
                     <a class="nav-link" href="#">Schedule</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#" tabindex="-1" aria-disabled="true">Contact Us</a>
+                    <a class="nav-link" href="#">Request</a>
                 </li>
             </ul>
             <div class="nav-item dropdown mx-5">
@@ -94,8 +94,23 @@
 
             <span class="alert alert-success d-none" id="successInventoryMessage">Successfully Added</span>
 
-            <div class="row justify-content-center mt-3">
-                <canvas id="myChart" width="300px"></canvas>
+            <div class="row justify-content-center mt-3" id="chartParent">
+                <canvas id="myChart"></canvas>
+                <script>
+                    var arrQuantity = [];
+                    var arrName = [];
+
+                    @foreach($quantities as $quantity)
+                    arrQuantity.push({{ $quantity->quantity }});
+                    arrName.push('{{ $quantity->food_category }}');
+                    // arrName
+                    @endforeach
+
+                    const ctx = document.getElementById('myChart');
+
+
+
+                </script>
             </div>
         </div>
 
@@ -123,8 +138,6 @@
                     </thead>
                     <tbody id="schedulesBody">
 
-
-
                     @foreach($schedules as $schedule)
 
                         <tr>
@@ -133,6 +146,7 @@
                             <td>{{ $schedule->donor_name }}</td>
                             <td>{{ ucfirst($schedule->status) }}</td>
                         </tr>
+
                     @endforeach
 
                     </tbody>
@@ -147,6 +161,17 @@
 </div>
 
 <script>
+
+    pieChartColors = [
+        'salmon',
+        'steelblue',
+        'cadetblue',
+        'khaki',
+        'mediumorchid',
+        'sandybrown',
+        'turquoise',
+        'mediumvioletred'
+    ];
 
     chart = undefined;
     function createChart() {
@@ -170,6 +195,7 @@
                     label: 'Food Quantity',
                     // data: [12, 19, 3, 5, 2, 3],
                     data: arrQuantity,
+                    backgroundColor: pieChartColors,
                     borderWidth: 1
                 }]
             },
@@ -180,30 +206,45 @@
     }
     createChart();
 
-    function addDataChart(chart, quantities){
+    function refreshChart(chart, quantities) {
 
-        console.log('aaa')
+        var arrName = [];
+        var arrQuantity = [];
 
-        var arrLabels = [];
-        var arrQuantities = [];
-
-        for(let i=0; i<quantities.length; i++){
-            arrLabels.push(quantities[i].food_category);
-            arrQuantities.push(quantities[i].quantity);
+        for (var i = 0; i < quantities.length; i++) {
+            arrName.push(quantities[i].food_category);
+            arrQuantity.push(quantities[i].quantity);
         }
-        chart.data.labels.push(arrLabels);
-        chart.data.datasets.forEach((dataset) => {
-            dataset.data.push(arrQuantities);
+
+        var canvasParent = document.getElementById('chartParent');
+        var canvas = document.getElementById('myChart');
+        canvasParent.removeChild(canvas);
+        canvas = document.createElement('canvas');
+        canvas.id = 'myChart';
+        canvasParent.appendChild(canvas);
+
+        chart = new Chart(canvas, {
+            type: 'pie',
+            data: {
+                // labels: ['Produce', 'Grains', 'Dairy', 'Meat', 'Packaged', 'Beverages', 'Condiments', 'Frozen'],
+                labels: arrName,
+                datasets: [{
+                    label: 'Food Quantity',
+                    // data: [12, 19, 3, 5, 2, 3],
+                    data: arrQuantity,
+                    backgroundColor: pieChartColors,
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: false
+            }
         });
-        // console.log(arrLabels);
-        // console.log(arrQuantities);
-        chart.update();
     }
 
     function capitalizeFirstLetter(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
-
 
     var refreshData = function() {
 
@@ -215,15 +256,15 @@
             dataType:'json',
             success: function (response) {
                 console.log(response);
-                schedulesBody.innerHTML = '';
 
-                addDataChart(chart, response.quantities);
+                schedulesBody.innerHTML = '';
 
                 for(i = 0; i < response.schedules.length; i++){
                     var updatedSchedules = "<tr><th scope='row'>" + response.schedules[i].donations_id + "</th><td>" + response.schedules[i].food_name + "</td><td>" + response.schedules[i].donor_name +"</td><td>" + capitalizeFirstLetter(response.schedules[i].status) + "</td></tr>";
-
                     $('#schedulesBody').append(updatedSchedules);
                 }
+
+                refreshChart(chart, response.quantities);
             },
             error: function (response) {
                 console.log(response);
@@ -231,7 +272,6 @@
 
             });
     }
-
 
     var markSchedulesButton = document.getElementById('completeScheduleButton');
     var markSchedulesModalEl = document.querySelector('#modal3');
@@ -356,7 +396,6 @@
         $('.modal-backdrop').show();
         addScheduleModal.show();
     });
-
 
     var addItems = document.getElementById('submitForm');
 
@@ -568,9 +607,6 @@
     addDonationModalEl.addEventListener('hidden.bs.modal', function() {
         refreshData();
     });
-
-
-
 
 </script>
 
