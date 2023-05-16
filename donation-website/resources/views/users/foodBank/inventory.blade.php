@@ -99,7 +99,7 @@
     Action
   </button>
   <ul class="dropdown-menu">
-    <li><button class="dropdown-item" onclick=sortbyexpirationdate()> Sort by Expiration Date </li>
+    <li><button class="dropdown-item" onclick=sortbyexpirationdate() >Sort by Expiration Date </li>
     <li><button class="dropdown-item" onclick=sortbycategory()> Sort by Category </li>
     <li><button class="dropdown-item" onclick=sortbyquantity()> Sort by Quantity </li>    
     <li><a class="dropdown-item" href="#">Separated link</a></li>
@@ -144,7 +144,7 @@
 function sortbyexpirationdate() {
     var inventory = document.getElementById('inventory');
     inventory.innerHTML = '';
-    
+
     $.ajax({
         url: "{{ route('getfooddata') }}",
         type: 'GET',
@@ -162,8 +162,8 @@ function sortbyexpirationdate() {
             });
 
             for (var i = 0; i < data.length; i++) {
-                var remainingItems = "<tr><th scope='row'>" + data[i].food_name + "</th><td>" + data[i].category + "</td><td>" + data[i].quantity + data[i].unit "</td><td>" + data[i].expiration_date + "</td></tr>";
-                $('#inventory').append(remainingItems);
+                var remainingItems = "<tr><th scope='row'>" + data[i].food_name + "</th><td>" + data[i].category + "</td><td>" + data[i].quantity + data[i].unit + "</td><td>" + data[i].expiration_date + "</td></tr>";
+                inventory.innerHTML += remainingItems;
             }
         },
         error: function(response) {
@@ -171,6 +171,8 @@ function sortbyexpirationdate() {
         }
     });
 }
+
+        
 
 
 
@@ -190,7 +192,7 @@ function sortbyexpirationdate() {
             dataType:'json',
             success: function (response) {
                 // console.log(response);
-                inventory.innerHTML = '';
+                // inventory.innerHTML = '';
 
 
                 // for(i = 0; i < response.schedules.length; i++){
