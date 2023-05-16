@@ -80,5 +80,11 @@ class FoodItemController extends Controller
         return view('users.foodBank.dashboard', ['quantities' => $categories, 'schedules' => $schedules]);
 
     }
+
+    public function show_inventory(){
+        $data = FoodItem::all(); // Retrieve data from the database
+
+        return view('users.foodBank.inventory', ['data' => $data]);
+    }
 }
 

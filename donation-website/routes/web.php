@@ -44,3 +44,7 @@ Route::post('/add_donation', [DonationController::class, 'addDonation'])->name('
 
 Route::post('/mark_schedule', [DonationController::class, 'markComplete'])->name('mark_schedule')->middleware('auth');
 //Route::get('/test', [])
+
+Route::get('/showinventory',[FoodItemController::class, 'show_inventory'])->name('showinventory')->middleware('auth');
+
+Route::get('/showschedule',[DonationController::class, 'show_schedule'])->name('showschedule')->middleware('auth');
