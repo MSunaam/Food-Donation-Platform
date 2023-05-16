@@ -38,6 +38,7 @@ Route::get('/dashboard', function () {
 
 
 
+<<<<<<< Updated upstream
 Route::post('/add_item', [FoodItemController::class, 'add'])->name('add_item');
 
 
@@ -50,3 +51,10 @@ Route::get('/gotoschedule', function () {
 })->name('dashboardschedule');
 
 
+=======
+Route::post('/mark_schedule', [DonationController::class, 'markComplete'])->name('mark_schedule')->middleware('auth');
+
+
+Route::post('/update_profile', [UpdateProfileController::class, 'updateProfile'])->name('update_profile')->middleware('auth');
+//Route::get('/test', [])
+>>>>>>> Stashed changes
