@@ -237,7 +237,10 @@
                 }]
             },
             options: {
-                responsive: false
+                responsive: false,
+                animation: {
+                    duration: 1
+                }
             }
         });
     }
