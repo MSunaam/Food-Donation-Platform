@@ -86,5 +86,12 @@ class FoodItemController extends Controller
 
         return view('users.foodBank.inventory', ['data' => $data]);
     }
+    public function get_food_data(){
+        $data = FoodItem::orderBy('expiration_date', 'asc')->get();
+
+        return response()->json($data);
+    }
+
+    
 }
 

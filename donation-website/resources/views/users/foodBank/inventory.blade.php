@@ -10,7 +10,7 @@
 
 {{--    Styles--}}
     <x-bootstrap-css/>
-    <link href="{{ asset('css/dashboard.css') }}" rel="stylesheet" type="text/css">
+    <!-- <link href="{{ asset('css/dashboard.css') }}" rel="stylesheet" type="text/css"> -->
     <link href="{{ asset("css/theme.css") }}" rel="stylesheet" type="text/css">
 {{--    Scripts--}}
     <x-ajax/>
@@ -89,6 +89,23 @@
 
         <div class="col-md-5 m-1 borderShadow " id="scheduleInformation">
             <span class="lead">Inventory</span>
+            <!-- Example single danger button -->
+            
+           <!-- Example single danger button -->
+           
+            <!-- Example single danger button -->
+<div class="btn-group">
+  <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+    Action
+  </button>
+  <ul class="dropdown-menu">
+    <li><button class="dropdown-item" onclick=sortbyexpirationdate()> Sort by Expiration Date </li>
+    <li><button class="dropdown-item" onclick=sortbycategory()> Sort by Category </li>
+    <li><button class="dropdown-item" onclick=sortbyquantity()> Sort by Quantity </li>    
+    <li><a class="dropdown-item" href="#">Separated link</a></li>
+  </ul>
+</div>
+
 
             
             <div class="container-fluid my-3">
@@ -123,7 +140,41 @@
 
 <script>
 
-   
+    
+function sortbyexpirationdate() {
+    var inventory = document.getElementById('inventory');
+    inventory.innerHTML = '';
+    
+    $.ajax({
+        url: "{{ route('getfooddata') }}",
+        type: 'GET',
+        dataType: 'json',
+        
+        success: function(response) {
+            console.log(response);
+            var data = response;
+            
+            // Sort the data by expiration date
+            data.sort(function(a, b) {
+                var dateA = new Date(a.expiration_date);
+                var dateB = new Date(b.expiration_date);
+                return dateA - dateB;
+            });
+
+            for (var i = 0; i < data.length; i++) {
+                var remainingItems = "<tr><th scope='row'>" + data[i].food_name + "</th><td>" + data[i].category + "</td><td>" + data[i].quantity + data[i].unit "</td><td>" + data[i].expiration_date + "</td></tr>";
+                $('#inventory').append(remainingItems);
+            }
+        },
+        error: function(response) {
+            console.log(response);
+        }
+    });
+}
+
+
+
+
     function capitalizeFirstLetter(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
@@ -142,11 +193,11 @@
                 inventory.innerHTML = '';
 
 
-                for(i = 0; i < response.schedules.length; i++){
-                    var remainingitems = "<tr><th scope='row'>" + response.data[i].food_name + "</th><td>" + response.data[i].category + "</td><td>" + response.data[i].quantity +"</td><td>" + response.data[i].expiration_date + "</td></tr>";
+                // for(i = 0; i < response.schedules.length; i++){
+                //     var remainingitems = "<tr><th scope='row'>" + response.data[i].food_name + "</th><td>" + response.data[i].category + "</td><td>" + response.data[i].quantity +"</td><td>" + response.data[i].expiration_date + "</td></tr>";
 
-                    $('#inventory').append(sremainingitems);
-                }
+                //     $('#inventory').append(sremainingitems);
+                // }
             },
             error: function (response) {
                 console.log(response);
