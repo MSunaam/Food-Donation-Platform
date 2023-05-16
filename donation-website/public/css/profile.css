@@ -1,4 +1,4 @@
-#mainDiv {
+.mainDiv {
     width: 90%;
     border: 1px solid antiquewhite;
     border-radius: 10px;
@@ -8,6 +8,18 @@
     height: auto;
 }
 
+#submitFormButton{
+    margin-left: 150px;
+}
+
 #profileHeading{
     margin-left: 65px;
+}
+
+#detailsDiv {
+    font-size: 1.2rem;
+}
+
+#detailsHeading{
+    font-size: 1.5rem;
 }

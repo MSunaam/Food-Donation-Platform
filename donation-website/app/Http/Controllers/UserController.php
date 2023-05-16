@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
 class UserController extends Controller
@@ -86,9 +87,9 @@ class UserController extends Controller
             'phone_number' => 'required|number',
             'address' => 'required',
             'city' => 'required',
-//            'old_password' => 'required|same:' $password,
-            'password'  => Rule::when($request->password != "" or $request->confirm_password != "" , ['min:8', 'same:confirm_password']),
-            'confirm_password'  => Rule::when($request->password != "" or $request->confirm_password != "" , ['min:8', 'same:password'])
+            'old_password' => ['required', ]
+//            'password'  => Rule::when($request->password != "" or $request->confirm_password != "" , ['min:8', 'same:confirm_password']),
+//            'confirm_password'  => Rule::when($request->password != "" or $request->confirm_password != "" , ['min:8', 'same:password'])
         ]);
 
         $id = Auth::user()->id;

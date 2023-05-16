@@ -78,74 +78,60 @@
     </div>
 </div>
 
-<div class="container justify-content-around" id="mainDiv">
-    <div class="row justify-content-around">
+<div class="container justify-content-around mainDiv" id="detailsDiv">
+    <div class="row justify-content-center">
 
-        <form action="{{ 'update_profile' }}" method="post" id="updateProfileForm" autocomplete="on" class="needs-validation" novalidate>
-            @csrf
-            <div id="updateProfileQuestions">
+        <p class="text-center h3">Details</p>
+        <hr>
 
-                <div class="row justify-content-center">
-                    <label for="name" class="col-md-3 col-form-label mt-3">Name</label>
-                    <div class="col-sm-6">
-                        <input type="text" class="form-control mt-3" id="name" name="name" value="{{ Auth::user()->name }}" required>
-                        <label for="name" class="error fail-alert"></label>
-                    </div>
-                </div>
+        <div class="col-md-6">
 
-                <div class="row justify-content-center">
-                    <label for="old_password" class="col-md-3 col-form-label mt-3">Old Password</label>
-                    <div class="col-sm-6">
-                        <input type="password" class="form-control mt-3" id="old_password" name="old_password" placeholder="" required>
-                        <label for="old_password" class="error fail-alert"></label>
-                    </div>
-                </div>
+            <br>
+            <p>Name: {{ Auth::user()->name }}</p>
+            <p>Email: {{ Auth::user()->email }}</p>
+            <p>Address: {{ Auth::user()->address }}</p>
+            <p>City: {{ Auth::user()->city }}</p>
+            <p>Phone Number: {{ Auth::user()->phone_number }}</p>
+            <button class="btn btn-orange" id="detailsFormButton">Change Details</button>
+        </div>
 
-                <div class="row justify-content-center">
-                    <label for="password" class="col-md-3 col-form-label mt-3">Password</label>
-                    <div class="col-sm-6">
-                        <input type="password" class="form-control mt-3" id="password" name="password" placeholder="" required>
-                        <label for="password" class="error fail-alert"></label>
-                    </div>
-                </div>
 
-                <div class="row justify-content-center">
-                    <label for="confirm_password" class="col-md-3 col-form-label mt-3">Confirm Password</label>
-                    <div class="col-sm-6">
-                        <input type="password" class="form-control mt-3" id="confirm_password" name="confirm_password" placeholder="" required>
-                        <label for="confirm_password" class="error fail-alert"></label>
-                    </div>
-                </div>
 
-                <div class="row justify-content-center">
-                    <label for="address" class="col-md-3 col-form-label mt-3">Address</label>
-                    <div class="col-sm-6">
-                        <input type="text" class="form-control mt-3" id="address" name="confirm_password" value="{{ Auth::user()->address }}" required>
-                        <label for="address" class="error fail-alert"></label>
-                    </div>
-                </div>
+        <div class="col-md-6">
+            <br>
+            <p>User Since: {{ date('d-m-Y', strtotime(Auth::user()->created_at)) }}</p>
+            <button class="btn btn-red">Delete Account</button>
+        </div>
 
-                <div class="row justify-content-center">
-                    <label for="city" class="col-md-3 col-form-label mt-3">City</label>
-                    <div class="col-sm-6">
-                        <input type="text" class="form-control mt-3" id="city" name="confirm_password" value="{{ Auth::user()->city }}" required>
-                        <label for="city" class="error fail-alert"></label>
-                    </div>
-                </div>
+    </div>
 
-                <div class="row justify-content-center">
-                    <label for="phone_number" class="col-md-3 col-form-label mt-3">Phone Number</label>
-                    <div class="col-sm-6">
-                        <input type="number" class="form-control mt-3" id="phone_number" name="phone_number" value="{{ Auth::user()->phone_number }}" required>
-                        <label for="phone_number" class="error fail-alert"></label>
-                    </div>
-                </div>
+</div>
 
-            </div>
-        </form>
+<div class="container justify-content-around d-none mainDiv" id="formDiv">
+    <div class="row justify-content-center">
+
+        <p class="text-center h3">Update Profile</p>
+        <hr>
+
+        <x-profile-change-form />
 
     </div>
 </div>
+
+
+
+
+
+
+<script>
+    var detailsFormButton = document.getElementById('detailsFormButton');
+
+    detailsFormButton.addEventListener('click',function(e){
+        e.preventDefault();
+        $('#formDiv').toggleClass('d-none');
+    });
+
+</script>
 
 </body>
 </html>

@@ -36,6 +36,8 @@ Route::controller(UserController::class)->group(function (){
 
 Route::get('/dashboard', [FoodItemController::class, 'getCategoryInfo'])->name('dashboard')->middleware('auth');
 
+Route::get('/updateInfo', [FoodItemController::class, 'getCategoryInfo'])->name('refreshData')->middleware('auth');
+
 Route::post('/add_item', [FoodItemController::class, 'add'])->name('add_item')->middleware('auth');
 
 Route::post('/add_donation', [DonationController::class, 'addDonation'])->name('add_donation')->middleware('auth');

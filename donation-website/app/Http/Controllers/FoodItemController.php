@@ -55,7 +55,7 @@ class FoodItemController extends Controller
         ]);
     }
 
-    public function getCategoryInfo() {
+    public function getCategoryInfo(Request $request) {
 
         $id = Auth::user()->id;
 
@@ -67,11 +67,15 @@ class FoodItemController extends Controller
         $schedules = DB::table('donations')
             ->join('users', 'users.id', '=', 'donations.donor_id')
             ->select('donations.food_name as food_name', 'users.name as donor_name', 'donations.status as status', 'donations.id as donations_id')
+            ->where('receiver_id', Auth::user()->id)
             ->reorder('donations.scheduled_pickup_time', 'desc')
             ->limit(10)
             ->get();
 
-
+        if($request->ajax()){
+            return ['quantities' => $categories, 'schedules' => $schedules];
+        }
+//        return "hello";
 
         return view('users.foodBank.dashboard', ['quantities' => $categories, 'schedules' => $schedules]);
 

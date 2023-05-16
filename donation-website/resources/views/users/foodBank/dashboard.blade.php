@@ -18,6 +18,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 {{--    Pie Chart--}}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 
 </head>
@@ -96,39 +97,6 @@
             <div class="row justify-content-center mt-3">
                 <canvas id="myChart" width="300px"></canvas>
             </div>
-
-            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-            <script>
-
-                var arrQuantity = [];
-                var arrName = [];
-
-                @foreach($quantities as $quantity)
-                arrQuantity.push({{ $quantity->quantity }});
-                arrName.push('{{ $quantity->food_category }}');
-                // arrName
-                @endforeach
-
-                const ctx = document.getElementById('myChart');
-
-                new Chart(ctx, {
-                    type: 'pie',
-                    data: {
-                        // labels: ['Produce', 'Grains', 'Dairy', 'Meat', 'Packaged', 'Beverages', 'Condiments', 'Frozen'],
-                        labels : arrName,
-                        datasets: [{
-                            label: 'Food Quantity',
-                            // data: [12, 19, 3, 5, 2, 3],
-                            data: arrQuantity,
-                            borderWidth: 1
-                        }]
-                    },
-                    options : {
-                        responsive: false
-                    }
-                });
-            </script>
         </div>
 
         <div class="col-md-5 m-1 borderShadow " id="scheduleInformation">
@@ -153,7 +121,9 @@
                         <th scope="col">Status</th>
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="schedulesBody">
+
+
 
                     @foreach($schedules as $schedule)
 
@@ -178,19 +148,105 @@
 
 <script>
 
-    var modal3Button = document.getElementById('completeScheduleButton');
-    var myModalEl3 = document.querySelector('#modal3');
-    var myModal3 = bootstrap.Modal.getOrCreateInstance(myModalEl3);
+    chart = undefined;
+    function createChart() {
+        var arrQuantity = [];
+        var arrName = [];
 
-    myModalEl3.addEventListener('hidden.bs.modal', function (){
+        @foreach($quantities as $quantity)
+        arrQuantity.push({{ $quantity->quantity }});
+        arrName.push('{{ $quantity->food_category }}');
+        // arrName
+        @endforeach
+
+        const ctx = document.getElementById('myChart');
+
+        chart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                // labels: ['Produce', 'Grains', 'Dairy', 'Meat', 'Packaged', 'Beverages', 'Condiments', 'Frozen'],
+                labels : arrName,
+                datasets: [{
+                    label: 'Food Quantity',
+                    // data: [12, 19, 3, 5, 2, 3],
+                    data: arrQuantity,
+                    borderWidth: 1
+                }]
+            },
+            options : {
+                responsive: false
+            }
+        });
+    }
+    createChart();
+
+    function addDataChart(chart, quantities){
+
+        console.log('aaa')
+
+        var arrLabels = [];
+        var arrQuantities = [];
+
+        for(let i=0; i<quantities.length; i++){
+            arrLabels.push(quantities[i].food_category);
+            arrQuantities.push(quantities[i].quantity);
+        }
+        chart.data.labels.push(arrLabels);
+        chart.data.datasets.forEach((dataset) => {
+            dataset.data.push(arrQuantities);
+        });
+        // console.log(arrLabels);
+        // console.log(arrQuantities);
+        chart.update();
+    }
+
+    function capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
+
+    var refreshData = function() {
+
+        var schedulesBody = document.getElementById('schedulesBody');
+
+        $.ajax({
+            url:'{{ route('refreshData') }}',
+            type:'GET',
+            dataType:'json',
+            success: function (response) {
+                console.log(response);
+                schedulesBody.innerHTML = '';
+
+                addDataChart(chart, response.quantities);
+
+                for(i = 0; i < response.schedules.length; i++){
+                    var updatedSchedules = "<tr><th scope='row'>" + response.schedules[i].donations_id + "</th><td>" + response.schedules[i].food_name + "</td><td>" + response.schedules[i].donor_name +"</td><td>" + capitalizeFirstLetter(response.schedules[i].status) + "</td></tr>";
+
+                    $('#schedulesBody').append(updatedSchedules);
+                }
+            },
+            error: function (response) {
+                console.log(response);
+            }
+
+            });
+    }
+
+
+    var markSchedulesButton = document.getElementById('completeScheduleButton');
+    var markSchedulesModalEl = document.querySelector('#modal3');
+    var markScheduleModal = bootstrap.Modal.getOrCreateInstance(markSchedulesModalEl);
+
+    markSchedulesModalEl.addEventListener('hidden.bs.modal', function (){
         $('#markScheduleError').addClass('d-none');
+        refreshData();
     });
 
-    modal3Button.addEventListener('click', function (e){
+    markSchedulesButton.addEventListener('click', function (e){
         e.preventDefault();
 
         $('.modal_backdrop').show();
-        myModal3.show();
+        markScheduleModal.show();
 
     });
 
@@ -255,7 +311,7 @@
                     // clearTimeout(timeout);
 
 
-                    myModal3.hide();
+                    markScheduleModal.hide();
                     $('#scheduleError').addClass('d-none');
                     $('.modal-backdrop').hide();
 
@@ -285,18 +341,20 @@
 
     $('#scheduleError').addClass('d-none');
 
-    var modal2Button = document.getElementById('addScheduleButton');
+    var addScheduleModalButton = document.getElementById('addScheduleButton');
 
-    var myModalEl2 = document.querySelector('#modal2');
-    var myModal2 = bootstrap.Modal.getOrCreateInstance(myModalEl2);
+    var addScheduleModalEl = document.querySelector('#modal2');
+    var addScheduleModal = bootstrap.Modal.getOrCreateInstance(addScheduleModalEl);
 
-    myModalEl2.addEventListener('hidden.bs.modal', function (){
+    addScheduleModalEl.addEventListener('hidden.bs.modal', function (){
         $('#scheduleError').addClass('d-none');
+        console.log("schedule added")
+        refreshData();
     });
 
-    modal2Button.addEventListener('click', function() {
+    addScheduleModalButton.addEventListener('click', function() {
         $('.modal-backdrop').show();
-        myModal2.show();
+        addScheduleModal.show();
     });
 
 
@@ -411,8 +469,6 @@
 
     });
 
-
-
     $("#add_donation_form").validate({
         errorClass: 'error fail-alert',
         validClass: 'valid success-alert',
@@ -454,7 +510,6 @@
         $('#successScheduleMessage').addClass('d-none');
     }
 
-
     var addDonation = document.getElementById('addDonation');
     addDonation.addEventListener('click', function(e){
         e.preventDefault();
@@ -482,7 +537,7 @@
                         // clearTimeout(timeout);
 
 
-                        myModal2.hide();
+                        addScheduleModal.hide();
                         $('.modal-backdrop').hide()
                     }
 
@@ -507,6 +562,11 @@
         }
 
 
+    });
+
+    var addDonationModalEl = document.getElementById('staticBackdrop');
+    addDonationModalEl.addEventListener('hidden.bs.modal', function() {
+        refreshData();
     });
 
 
