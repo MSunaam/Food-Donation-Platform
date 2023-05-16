@@ -27,9 +27,9 @@ return [
     |--------------------------------------------------------------------------
     |
     | This array contains the authentication guards that will be checked when
-    | Sanctum is trying to authenticate a request. If none of these guards
-    | are able to authenticate the request, Sanctum will use the bearer
-    | token that's present on an incoming request for authentication.
+    | Sanctum is trying to authenticate a requestController. If none of these guards
+    | are able to authenticate the requestController, Sanctum will use the bearer
+    | token that's present on an incoming requestController for authentication.
     |
     */
 
@@ -55,7 +55,7 @@ return [
     |
     | When authenticating your first-party SPA with Sanctum you may need to
     | customize some of the middleware Sanctum uses while processing the
-    | request. You may change the middleware listed below as required.
+    | requestController. You may change the middleware listed below as required.
     |
     */
 

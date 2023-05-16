@@ -88,8 +88,8 @@ class UserController extends Controller
             'address' => 'required',
             'city' => 'required',
             'old_password' => ['required', ]
-//            'password'  => Rule::when($request->password != "" or $request->confirm_password != "" , ['min:8', 'same:confirm_password']),
-//            'confirm_password'  => Rule::when($request->password != "" or $request->confirm_password != "" , ['min:8', 'same:password'])
+//            'password'  => Rule::when($requestController->password != "" or $requestController->confirm_password != "" , ['min:8', 'same:confirm_password']),
+//            'confirm_password'  => Rule::when($requestController->password != "" or $requestController->confirm_password != "" , ['min:8', 'same:password'])
         ]);
 
         $id = Auth::user()->id;

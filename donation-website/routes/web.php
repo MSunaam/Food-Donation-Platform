@@ -4,6 +4,7 @@ use App\Http\Controllers\DonationController;
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\UserController;
 use App\Http\Controllers\FoodItemController;
+use \App\Http\Controllers\RequestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,4 +44,10 @@ Route::controller(FoodItemController::class)->group(function (){
 Route::controller(DonationController::class)->group(function (){
     Route::post('/add_donation','addDonation')->name('add_donation');
     Route::post('/mark_schedule','markComplete')->name('mark_schedule');
+})->middleware('auth');
+
+Route::controller(RequestController::class)->group(function (){
+    Route::get('request', 'requestView')->name('request');
+    Route::post('addRequest', 'addRequest')->name('addRequest');
+    Route::get('getRequest', 'getRequests')->name('getRequests');
 })->middleware('auth');

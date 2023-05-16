@@ -44,19 +44,19 @@
         <div class="collapse navbar-collapse" id="navbarToggler">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="#">Inventory</a>
+                    <a class="nav-link" href="#">Inventory</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Schedule</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Request</a>
+                    <a class="nav-link" href="{{ route('request') }}">Request</a>
                 </li>
             </ul>
             <div class="nav-item dropdown mx-5">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <img src="{{ asset('images/food-bank.png') }}" class="rounded-circle align-middle mb-2" width="30px" height="30px">
-                     <span class=>{{ Auth::user() ? Auth::user()->name : "Sunaam" }}</span>
+                     <span class=>{{ Auth::user()->name }}</span>
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <li>
@@ -138,16 +138,28 @@
                     </thead>
                     <tbody id="schedulesBody">
 
-                    @foreach($schedules as $schedule)
+                    @if($schedules->isEmpty())
 
                         <tr>
-                            <th scope="row">{{ $schedule->donations_id }}</th>
-                            <td>{{ $schedule->food_name }}</td>
-                            <td>{{ $schedule->donor_name }}</td>
-                            <td>{{ ucfirst($schedule->status) }}</td>
+                            <td colspan="4" class="text-center">No Data</td>
                         </tr>
 
-                    @endforeach
+                    @else
+
+                        @foreach($schedules as $schedule)
+
+                            <tr>
+                                <th scope="row">{{ $schedule->donations_id }}</th>
+                                <td>{{ $schedule->food_name }}</td>
+                                <td>{{ $schedule->donor_name }}</td>
+                                <td>{{ ucfirst($schedule->status) }}</td>
+                            </tr>
+
+                        @endforeach
+
+                    @endif
+
+
 
                     </tbody>
                 </table>
