@@ -257,7 +257,7 @@
             },
             options: {
                 responsive: false,
-                
+
             }
         });
     }
