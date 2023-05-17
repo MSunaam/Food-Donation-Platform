@@ -38,13 +38,13 @@
                     <a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Inventory</a>
+                    <a class="nav-link" href="{{ route('showinventory') }}">Inventory</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Schedule</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#" tabindex="-1"">Contact Us</a>
+                    <a class="nav-link" href="#" tabindex="-1">Contact Us</a>
                 </li>
             </ul>
             <div class="nav-item dropdown mx-5">

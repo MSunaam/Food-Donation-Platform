@@ -85,29 +85,41 @@ class FoodItemController extends Controller
 
     }
 
-    public function show_inventory(){
-        $data = FoodItem::all(); // Retrieve data from the database
+    public function show_inventory(Request $request){
+        if(!auth()->check()){
+            return redirect('/login');
+        }
+        $id = Auth::user()->id;
+
+        $data = DB::table('food_items')
+            ->select('food_name', 'food_category', 'expiration_date', 'quantity', 'unit')
+            ->where('foodBankId', '=', $id)
+            ->get();
+
+        if($request->ajax()){
+            return ['data' => $data];
+        }
 
         return view('users.foodBank.inventory', ['data' => $data]);
     }
-    public function get_food_data(){
-        $data = FoodItem::orderBy('expiration_date', 'asc')->get();
+//    public function get_food_data(){
+//        $data = FoodItem::orderBy('expiration_date', 'asc')->get();
+//
+//        return response()->json($data);
+//    }
+//
+//    public function sortquantity(){
+//        $data = FoodItem::orderBy('quantity', 'desc')->get();
+//
+//        return response()->json($data);
+//    }
+//
+//    public function sortcategory(){
+//        $data = FoodItem::orderBy('food_category')->get();
+//
+//        return response()->json($data);
+//    }
 
-        return response()->json($data);
-    }
 
-    public function sortquantity(){
-        $data = FoodItem::orderBy('quantity', 'desc')->get();
-
-        return response()->json($data);
-    }
-
-    public function sortcategory(){
-        $data = FoodItem::orderBy('food_category')->get();
-
-        return response()->json($data);
-    }
-
-    
 }
 

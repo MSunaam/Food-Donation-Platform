@@ -33,17 +33,17 @@
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="{{ route('home')  }}">
             <img src="{{ asset('images/food-bank.png') }}" alt="mealShare" width="30" height="24" class="d-inline-block align-text-top">
             MealShare
         </a>
         <div class="collapse navbar-collapse" id="navbarToggler">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item">
-                    <a class="nav-link" href="{{ route('dashbaord') }}">Dashboard</a>
+                    <a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Inventory</a>
+                    <a class="nav-link active" aria-current="page" href="">Inventory</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="">Schedule</a>
@@ -79,48 +79,42 @@
 </nav>
 
 <div class="container-fluid mt-5">
-    <div class="text-center">
-         <span class="display-6"> {{ Auth::user()->name }}</span>
+    <div class="text-start">
+         <span class="display-6" id="inventoryHeading">Inventory</span>
     </div>
 </div>
 
-<!-- <div class="container justify-content-around" id="dashboardInformation"> -->
+<div class="container justify-content-around mainDiv">
     <div class="row justify-content-around">
-        
 
-        <div class="col-md-5 m-1 borderShadow " id="scheduleInformation">
-            <span class="lead">Inventory</span>
-            <!-- Example single danger button -->
-            
-           <!-- Example single danger button -->
-           
-            <!-- Example single danger button -->
-<div class="btn-group">
-  <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-    Action
-  </button>
-  <ul class="dropdown-menu">
-    <li><button class="dropdown-item" onclick=sortbyexpirationdate() >Sort by Expiration Date </li>
-    <li><button class="dropdown-item" onclick=sortbycategory()> Sort by Category </li>
-    <li><button class="dropdown-item" onclick=sortbyquantity()> Sort by Quantity </li>    
-    
-  </ul>
-</div>
+        <div class="btn-group d-inline-block">
+          <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            Sort By
+          </button>
+          <ul class="dropdown-menu">
+            <li><button class="dropdown-item" id="sortByExpirationDate">Sort by Expiration Date </li>
+            <li><button class="dropdown-item" id="sortByCategory"> Sort by Category </li>
+            <li><button class="dropdown-item" id="sortByQuantity"> Sort by Quantity </li>
+          </ul>
+        </div>
 
+        <div class="container-fluid my-3">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">Food Name</th>
+                    <th scope="col">Food category</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Expiration Date</th>
+                </tr>
+                </thead>
+                <tbody id="inventoryTable">
 
-            
-            <div class="container-fluid my-3">
-                <table class="table">
-                    <thead>
+                @if($data->isEmpty())
                     <tr>
-                        <th scope="col">Food Name</th>
-                        <th scope="col">Food category</th>
-                        <th scope="col">Quantity</th>
-                        <th scope="col">expiration Date</th>
+                        <td colspan="4" class="text-center">No data available</td>
                     </tr>
-                    </thead>
-                    <tbody id="inventory">
-
+                @else
                     @foreach($data as $item)
                         <tr>
                             <td>{{ $item->food_name }}</td>
@@ -129,130 +123,80 @@
                             <td>{{ $item->expiration_date }}</td>
 
                         </tr>
-                        @endforeach
+                    @endforeach
+                @endif
 
-                    </tbody>
-                </table>
-            </div>
+                </tbody>
+            </table>
+        </div>
 
         </div>
     </div>
-<!-- </div> -->
 
 <script>
 
-    
-function sortbyexpirationdate() {
-    var inventory = document.getElementById('inventory');
-    inventory.innerHTML = '';
+    function formatDate(str) {
+        var year = str.slice(0,4);
+        var month = str.slice(5,7);
+        var day = str.slice(8,10);
+        return day + '-' + month + '-' + year;
+    }
 
-    $.ajax({
-        url: "{{ route('getfooddata') }}",
-        type: 'GET',
-        dataType: 'json',
-        
-        success: function(response) {
-            console.log(response);
-            var data = response;
-            
-            // Sort the data by expiration date
+    var inventoryTable = document.getElementById('inventoryTable');
 
-            for (var i = 0; i < data.length; i++) {
-                var remainingItems = "<tr><th scope='row'>" + data[i].food_name + "</th><td>" + data[i].food_category + "</td><td>" + data[i].quantity + data[i].unit + "</td><td>" + data[i].expiration_date + "</td></tr>";
-                inventory.innerHTML += remainingItems;
-            }
-        },
-        error: function(response) {
-            console.log(response);
-        }
+    var sortByCategoryButton = document.getElementById('sortByCategory');
+    var sortByExpirationDateButton = document.getElementById('sortByExpirationDate');
+    var sortByQuantityButton = document.getElementById('sortByQuantity');
+
+    sortByCategoryButton.addEventListener('click', function(){
+        refreshData('food_category');
     });
-}
 
-function sortbyquantity() {
-    var inventory = document.getElementById('inventory');
-    inventory.innerHTML = '';
-
-    $.ajax({
-        url: "{{ route('sortbyquantity') }}",
-        type: 'GET',
-        dataType: 'json',
-        
-        success: function(response) {
-            console.log(response);
-            var data = response;
-            
-            // Sort the data by quantity
-            data.sort(function(a, b) {
-                var dateA = new Date(a.quantity);
-                var dateB = new Date(b.quantity);
-                return dateA - dateB;
-            });
-
-            for (var i = 0; i < data.length; i++) {
-                var remainingItems = "<tr><th scope='row'>" + data[i].food_name + "</th><td>" + data[i].food_category + "</td><td>" + data[i].quantity + data[i].unit + "</td><td>" + data[i].expiration_date + "</td></tr>";
-                inventory.innerHTML += remainingItems;
-            }
-        },
-        error: function(response) {
-            console.log(response);
-        }
+    sortByExpirationDateButton.addEventListener('click', function(){
+        refreshData('expiration_date');
     });
-}
 
-function sortbycategory() {
-    var inventory = document.getElementById('inventory');
-    inventory.innerHTML = '';
-
-    $.ajax({
-        url: "{{ route('sortbycategory') }}",
-        type: 'GET',
-        dataType: 'json',
-        
-        success: function(response) {
-            console.log(response);
-            var data = response;
-            
-            
-            for (var i = 0; i < data.length; i++) {
-                var remainingItems = "<tr><th scope='row'>" + data[i].food_name + "</th><td>" + data[i].food_category + "</td><td>" + data[i].quantity + data[i].unit + "</td><td>" + data[i].expiration_date + "</td></tr>";
-                inventory.innerHTML += remainingItems;
-            }
-        },
-        error: function(response) {
-            console.log(response);
-        }
+    sortByQuantityButton.addEventListener('click', function(){
+        refreshData('quantity');
     });
-}
 
-        
+    function refreshData(sortBy = null){
+        inventoryTable.innerHTML = "";
+        $.ajax({
+            url: "{{ route('showInventory') }}",
+            type: 'GET',
+            success: function(response) {
+                console.log(response);
+                arrData = response.data;
 
+                if(sortBy === "date"){
+                    arrData = response.data.sort(function(a,b){
+                        return new Date(b.expiration_date) - new Date(a.expiration_date);
+                    });
+                }else if(sortBy === "status"){
+                    arrData = response.data.sort(function(a,b){
+                        return b.status > a.status;
+                    });
+                }else if(sortBy === "quantity"){
+                    arrData = response.data.sort(function(a,b){
+                        return b.quantity - a.quantity;
+                    });
+                }
 
-
+                for (var i = 0; i < arrData.length; i++) {
+                    var remainingItems = "<tr><td>" + arrData[i].food_name + "</td><td>" + arrData[i].food_category + "</td><td>" + arrData[i].quantity+ " " + arrData[i].unit + "</td><td>" + formatDate(arrData[i].expiration_date) + "</td></tr>";
+                    inventoryTable.innerHTML += remainingItems;
+                }
+            },
+            error: function(response) {
+                console.log(response);
+            }
+        });
+    }
 
     function capitalizeFirstLetter(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
-
-
-    var refreshData = function() {
-
-        var inventory = document.getElementById('inventory');
-
-        $.ajax({
-            url:'{{ route('refreshData') }}',
-            type:'GET',
-            dataType:'json',
-            success: function (response) {
-                
-            },
-            error: function (response) {
-                console.log(response);
-            }
-
-            });
-    }
-
-
 
 </script>
 

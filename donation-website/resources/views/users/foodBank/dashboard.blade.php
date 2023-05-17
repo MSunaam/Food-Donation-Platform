@@ -51,10 +51,10 @@
                     <a class="nav-link active" href="">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{route('showinventory')}}">Inventory</a>
+                    <a class="nav-link" href="{{route('showInventory')}}">Inventory</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{route('showschedule')}}">Schedule</a>
+                    <a class="nav-link" href="">Schedule</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('request') }}">Request</a>
