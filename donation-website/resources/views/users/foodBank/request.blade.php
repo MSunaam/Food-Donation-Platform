@@ -25,7 +25,7 @@
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand">
             <img src="{{ asset('images/food-bank.png') }}" alt="mealShare" width="30" height="24" class="d-inline-block align-text-top">
             MealShare
         </a>
@@ -39,6 +39,9 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Schedule</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="{{ route('request') }}">Request</a>
                 </li>
             </ul>
             <div class="nav-item dropdown mx-5">
@@ -72,8 +75,23 @@
     </div>
 </div>
 
-<button class="btn btn-orange mt-3" id="newRequestButton">New Request</button>
+<div class="mt-3">
+    <button class="btn btn-orange" id="newRequestButton">New Request</button>
+    <button class="btn btn-gunmetal" id="changeStatusButton">Change Status</button>
 
+    <div class="dropdown d-inline-block">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="sortByDropDownButton" data-bs-toggle="dropdown" aria-expanded="false">
+            Sort By
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            <li><a class="dropdown-item" id="dateSort">Date</a></li>
+            <li><a class="dropdown-item" id="statusSort">Status</a></li>
+            <li><a class="dropdown-item" id="quantity">Quantity</a></li>
+        </ul>
+    </div>
+</div>
+
+<x-change-request-status-modal/>
 <x-new-request-modal/>
 
 <div class="container justify-content-around mainDiv" id="detailsDiv">
@@ -115,8 +133,146 @@
 
 <script>
 
+    $('#dateSort').click(function(){
+        updateTable("date");
+    });
+
+    $('#statusSort').click(function(){
+        updateTable("status");
+    });
+
+    $('#quantity').click(function(){
+        updateTable("quantity");
+    });
+
+    var changeRequestModalEl = document.querySelector('#changeRequestStatusModal');
+    var changeRequestModal = bootstrap.Modal.getOrCreateInstance(changeRequestModalEl);
+
+    var changeStatusButton = document.querySelector('#changeStatusButton');
+    changeStatusButton.addEventListener('click', function(e){
+        e.preventDefault()
+        changeRequestModal.show();
+    });
+
+    changeRequestModalEl.addEventListener('hidden.bs.modal', function (event) {
+        updateTable();
+    });
+
+    $('#changeRequestStatusForm').validate([
+        {
+            rules: {
+                request_id : {
+                    required: true,
+                    number: true
+                },
+                status: {
+                    required: true
+                },
+                unit : {
+                    required: true,
+                    minLength: 1,
+                },
+                quantity : {
+                    required: true,
+                    number: true
+                }
+            },
+            messages: {
+                status: {
+                    required: "Please select a status"
+                },
+                request_id : {
+                    required: "Please enter a request id",
+                    number: "Please enter a valid request id"
+                },
+                unit : {
+                    required: "Please enter a unit",
+                    minLength: "Please enter a valid unit"
+                },
+                quantity : {
+                    required: "Please enter a quantity",
+                    number: "Please enter a valid quantity"
+                }
+            }
+        }
+    ]);
+
+    $('#newRequestForm').validate([
+        {
+            rules: {
+                category : {
+                    required: true,
+                },
+                status: {
+                    required: true
+                },
+                unit : {
+                    required: true,
+                    minLength: 1,
+                },
+                quantity : {
+                    required: true,
+                    number: true
+                }
+            },
+            messages: {
+                status: {
+                    required: "Please select a status"
+                },
+                request_id : {
+                    required: "Please enter a request id",
+                    number: "Please enter a valid request id"
+                },
+                unit : {
+                    required: "Please enter a unit",
+                    minLength: "Please enter a valid unit"
+                },
+                quantity : {
+                    required: "Please enter a quantity",
+                    number: "Please enter a valid quantity"
+                }
+            }
+        }
+    ]);
+
+    var submitRequestChangeButton = document.querySelector('#submitRequestChangeButton');
+    submitRequestChangeButton.addEventListener('click', function(e){
+        e.preventDefault();
+
+        var formData = new FormData(document.querySelector('#changeRequestStatusForm'));
+        console.log(formData);
+
+        if($('#changeRequestStatusForm').valid()) {
+            $.ajax(
+                {
+                    url: "{{ route('updateRequest') }}",
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (data) {
+                        console.log(data);
+                        changeRequestModal.hide();
+                    },
+                    error: function (data) {
+                        console.log(data);
+                    }
+                }
+            );
+        }
+    });
+
+
+
     function capitalizeFirstLetter(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
+    function formatDate(str) {
+        var year = str.slice(0,4);
+        var month = str.slice(5,7);
+        var day = str.slice(8,10);
+        return day + '-' + month + '-' + year;
     }
 
     var requestTableBody = document.querySelector('#requestTableBody');
@@ -129,9 +285,9 @@
                 '<th scope="row">'+entry.id+'</th>' +
                 '<td>'+entry.food_category+'</td>' +
                 '<td>'+entry.quantity+'</td>' +
-                '<td>'+ entry.request_date +'</td>' +
+                '<td>'+ formatDate(entry.request_date) +'</td>' +
                 '<td>'+capitalizeFirstLetter(entry.status)+'</td>' +
-                '<td>'+(entry.notes === undefined ? "" : entry.notes)+'</td>' +
+                '<td>'+(entry.notes === null ? "" : entry.notes)+'</td>' +
                 '</tr>';
             requestTableBody.innerHTML += writeHtml;
         }));
@@ -147,7 +303,7 @@
         newRequestModal.show();
     });
 
-    var updateTable = function(){
+    var updateTable = function(sortBy = null){
         $.ajax({
             url: "{{ route('getRequests') }}",
             type: "GET",
@@ -156,7 +312,23 @@
             contentType: false,
             success: function (data) {
                 console.log(data);
-                refreshTable(data.requestHistory);
+
+                requestHistory = data.requestHistory;
+                if(sortBy === "date"){
+                    requestHistory = data.requestHistory.sort(function(a,b){
+                        return new Date(b.request_date) - new Date(a.request_date);
+                    });
+                }else if(sortBy === "status"){
+                    requestHistory = data.requestHistory.sort(function(a,b){
+                        return b.status > a.status;
+                    });
+                }else if(sortBy === "quantity"){
+                    requestHistory = data.requestHistory.sort(function(a,b){
+                        return b.quantity - a.quantity;
+                    });
+                }
+
+                refreshTable(requestHistory);
             },
             error: function (error) {
                 console.log(error);
@@ -171,28 +343,27 @@
     var submitFormRequest = document.querySelector('#submitFormRequest');
     var requestForm = document.querySelector('#newRequestForm');
 
-
-
-
     submitFormRequest.addEventListener('click', function (e) {
 
         var requestFormData = new FormData(requestForm);
 
         e.preventDefault();
-        $.ajax({
-            url: "{{ route('addRequest') }}",
-            type: "POST",
-            data: requestFormData,
-            processData: false,
-            contentType: false,
-            success: function (data) {
-                console.log(data);
-                newRequestModal.hide();
-            },
-            error: function (error) {
-                console.log(error);
-            }
-        });
+        if($("#newRequestForm").valid()){
+            $.ajax({
+                url: "{{ route('addRequest') }}",
+                type: "POST",
+                data: requestFormData,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    console.log(data);
+                    newRequestModal.hide();
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
     });
 
 </script>

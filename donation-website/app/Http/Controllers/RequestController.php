@@ -23,7 +23,7 @@ class RequestController extends Controller
         $id = Auth::user()->id;
 
         $requestHistory = DB::table('requests')
-        ->select('requests.id', 'users.name', 'requests.food_category', 'requests.quantity','requests.request_date', 'requests.status')
+        ->select('requests.id', 'users.name', 'requests.food_category', 'requests.quantity','requests.request_date', 'requests.status', 'notes')
         ->join('users', 'users.id', '=', 'requests.requester_id')
         ->where('requests.requester_id', '=', $id)
         ->get();
@@ -50,6 +50,10 @@ class RequestController extends Controller
             'status' => 'required',
         ]);
 
+        if($request->notes == ""){
+            $request->notes = null;
+        }
+
         $data = [
             'requester_id' => $id,
             'food_category' => $request->food_category,
@@ -58,6 +62,7 @@ class RequestController extends Controller
             'request_date' => $request_date,
             'status' => $request->status,
             'created_at' => $created_at,
+            'notes' => $request->notes,
         ];
 
         DB::table('requests')->insert($data);
@@ -66,6 +71,39 @@ class RequestController extends Controller
             "error" => false,
             "message" => "Successfully Entered Data"
         ]);
+    }
+
+    public function updateRequest(Request $request){
+
+        $id = Auth::user()->id;
+        $updated_at = Carbon::now()->toDateString();
+
+        $request->validate([
+            'request_id' => 'required|exists:requests,id',
+            'quantity' => 'required|numeric|min:1',
+            'unit' => 'required',
+            'status' => 'required',
+        ]);
+
+        if($request->notes == ""){
+            $request->notes = null;
+        }
+
+        DB::table('requests')
+            ->where('id', $request->request_id)
+            ->update([
+                'quantity' => $request->quantity,
+                'unit' => $request->unit,
+                'status' => $request->status,
+                'updated_at' => $updated_at,
+                'notes' => $request->notes,
+            ]);
+
+        return response()->json([
+            "error" => false,
+            "message" => "Successfully Updated Data"
+        ]);
+
     }
 
 }

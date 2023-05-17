@@ -1,32 +1,21 @@
 <!-- Modal -->
-<div class="modal fade" id="newRequestModal" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="changeRequestStatusModal" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">New Request</h5>
+                <h5 class="modal-title" id="staticBackdropLabel">Change Status</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
 
-                <form action="{{ route('addRequest') }}" method="post" id="newRequestForm" autocomplete="on" class="needs-validation" novalidate>
+                <form action="" method="post" id="changeRequestStatusForm" autocomplete="on" class="needs-validation" novalidate>
                     @csrf
                     <div>
-
                         <div class="row justify-content-center">
-                            <label for="food_category" class="col-md-3 col-form-label mt-3">Category</label>
+                            <label for="request_id" class="col-md-3 col-form-label mt-3">Request Id</label>
                             <div class="col-sm-6">
-                                <select class="form-select mt-3" aria-label="Default select example" name="food_category">
-                                    <option selected value="">Food Category</option>
-                                    <option value="Produce">Produce</option>
-                                    <option value="Grains">Grains</option>
-                                    <option value="Dairy">Dairy</option>
-                                    <option value="Meat">Meat</option>
-                                    <option value="Packaged">Packaged</option>
-                                    <option value="Beverages">Beverages</option>
-                                    <option value="Condiments">Condiments</option>
-                                    <option value="Frozen">Frozen</option>
-                                </select>
-                                <label for="food_category" class="error fail-alert"></label>
+                                <input type="number" class="form-control mt-3" id="request_id" name="request_id" placeholder="" required>
+                                <label for="request_id" class="error fail-alert"></label>
                             </div>
                         </div>
 
@@ -52,6 +41,8 @@
                                 <select class="form-select mt-3" aria-label="Default select example" name="status">
                                     <option selected value="">Status</option>
                                     <option value="Open">Open</option>
+                                    <option value="fulfilled">Fulfilled</option>
+                                    <option value="cancelled">Cancelled</option>
                                 </select>
                                 <label for="status" class="error fail-alert"></label>
                             </div>
@@ -60,7 +51,7 @@
                         <div class="row justify-content-center">
                             <label for="notes" class="col-md-3 col-form-label mt-3">Note</label>
                             <div class="col-sm-6">
-                                <input type="text" class="form-control mt-3" id="note" name="notes" placeholder="Note" required>
+                                <input type="text" class="form-control mt-3" id="notes" name="notes" placeholder="Note" required>
                                 <label for="notes" class="error fail-alert"></label>
                             </div>
                         </div>
@@ -72,7 +63,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-gunmetal" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-orange" id="submitFormRequest">Add Request</button>
+                <button type="button" class="btn btn-orange" id="submitRequestChangeButton">Change Request</button>
             </div>
         </div>
     </div>

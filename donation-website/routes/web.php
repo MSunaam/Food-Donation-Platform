@@ -50,4 +50,5 @@ Route::controller(RequestController::class)->group(function (){
     Route::get('request', 'requestView')->name('request');
     Route::post('addRequest', 'addRequest')->name('addRequest');
     Route::get('getRequest', 'getRequests')->name('getRequests');
+    Route::post('updateRequest', 'updateRequest')->name('updateRequest');
 })->middleware('auth');

@@ -57,6 +57,10 @@ class FoodItemController extends Controller
 
     public function getCategoryInfo(Request $request) {
 
+        if(!auth()->check()){
+            return redirect('/login');
+        }
+
         $id = Auth::user()->id;
 
         $categories = DB::table('food_items')

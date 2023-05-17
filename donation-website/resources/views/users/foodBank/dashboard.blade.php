@@ -32,6 +32,10 @@
 {{--    <script> window.location.href = "{{ route('home') }}" </script>--}}
 {{--@endif--}}
 
+@if(!auth()->check())
+    <script> window.location.href = "{{ route('login') }}" </script>
+@endif
+
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
@@ -43,6 +47,9 @@
         </a>
         <div class="collapse navbar-collapse" id="navbarToggler">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" href="">Dashboard</a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Inventory</a>
                 </li>
