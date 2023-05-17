@@ -8,7 +8,7 @@
     <x-favicon/>
 
 {{--    CSS--}}
-    <boostrap-css/>
+    <x-bootstrap-css/>
     <link rel="stylesheet" type="text/css" href="{{ asset('css/theme.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/inventory.css') }}">
 {{--    Script--}}
