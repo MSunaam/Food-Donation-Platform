@@ -155,14 +155,65 @@ function sortbyexpirationdate() {
             var data = response;
             
             // Sort the data by expiration date
+
+            for (var i = 0; i < data.length; i++) {
+                var remainingItems = "<tr><th scope='row'>" + data[i].food_name + "</th><td>" + data[i].food_category + "</td><td>" + data[i].quantity + data[i].unit + "</td><td>" + data[i].expiration_date + "</td></tr>";
+                inventory.innerHTML += remainingItems;
+            }
+        },
+        error: function(response) {
+            console.log(response);
+        }
+    });
+}
+
+function sortbyquantity() {
+    var inventory = document.getElementById('inventory');
+    inventory.innerHTML = '';
+
+    $.ajax({
+        url: "{{ route('sortbyquantity') }}",
+        type: 'GET',
+        dataType: 'json',
+        
+        success: function(response) {
+            console.log(response);
+            var data = response;
+            
+            // Sort the data by quantity
             data.sort(function(a, b) {
-                var dateA = new Date(a.expiration_date);
-                var dateB = new Date(b.expiration_date);
+                var dateA = new Date(a.quantity);
+                var dateB = new Date(b.quantity);
                 return dateA - dateB;
             });
 
             for (var i = 0; i < data.length; i++) {
-                var remainingItems = "<tr><th scope='row'>" + data[i].food_name + "</th><td>" + data[i].category + "</td><td>" + data[i].quantity + data[i].unit + "</td><td>" + data[i].expiration_date + "</td></tr>";
+                var remainingItems = "<tr><th scope='row'>" + data[i].food_name + "</th><td>" + data[i].food_category + "</td><td>" + data[i].quantity + data[i].unit + "</td><td>" + data[i].expiration_date + "</td></tr>";
+                inventory.innerHTML += remainingItems;
+            }
+        },
+        error: function(response) {
+            console.log(response);
+        }
+    });
+}
+
+function sortbycategory() {
+    var inventory = document.getElementById('inventory');
+    inventory.innerHTML = '';
+
+    $.ajax({
+        url: "{{ route('sortbycategory') }}",
+        type: 'GET',
+        dataType: 'json',
+        
+        success: function(response) {
+            console.log(response);
+            var data = response;
+            
+            
+            for (var i = 0; i < data.length; i++) {
+                var remainingItems = "<tr><th scope='row'>" + data[i].food_name + "</th><td>" + data[i].food_category + "</td><td>" + data[i].quantity + data[i].unit + "</td><td>" + data[i].expiration_date + "</td></tr>";
                 inventory.innerHTML += remainingItems;
             }
         },
@@ -191,15 +242,7 @@ function sortbyexpirationdate() {
             type:'GET',
             dataType:'json',
             success: function (response) {
-                // console.log(response);
-                // inventory.innerHTML = '';
-
-
-                // for(i = 0; i < response.schedules.length; i++){
-                //     var remainingitems = "<tr><th scope='row'>" + response.data[i].food_name + "</th><td>" + response.data[i].category + "</td><td>" + response.data[i].quantity +"</td><td>" + response.data[i].expiration_date + "</td></tr>";
-
-                //     $('#inventory').append(sremainingitems);
-                // }
+                
             },
             error: function (response) {
                 console.log(response);

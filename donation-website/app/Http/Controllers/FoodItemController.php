@@ -92,6 +92,18 @@ class FoodItemController extends Controller
         return response()->json($data);
     }
 
+    public function sortquantity(){
+        $data = FoodItem::orderBy('quantity', 'desc')->get();
+
+        return response()->json($data);
+    }
+
+    public function sortcategory(){
+        $data = FoodItem::orderBy('food_category')->get();
+
+        return response()->json($data);
+    }
+
     
 }
 

@@ -51,6 +51,11 @@ Route::get('/showschedule',[DonationController::class, 'show_schedule'])->name('
 
 Route::get('/getfooddata',[FoodItemController::class, 'get_food_data'])->name('getfooddata')->middleware('auth');
 
+Route::get('/sortbyquantity',[FoodItemController::class, 'sortquantity'])->name('sortbyquantity')->middleware('auth');
+
+Route::get('/sortbyvategory',[FoodItemController::class, 'sortcategory'])->name('sortbycategory')->middleware('auth');
+
+
 
 
 
