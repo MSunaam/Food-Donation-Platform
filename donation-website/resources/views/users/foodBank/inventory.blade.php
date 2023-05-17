@@ -102,7 +102,7 @@
     <li><button class="dropdown-item" onclick=sortbyexpirationdate() >Sort by Expiration Date </li>
     <li><button class="dropdown-item" onclick=sortbycategory()> Sort by Category </li>
     <li><button class="dropdown-item" onclick=sortbyquantity()> Sort by Quantity </li>    
-    <li><a class="dropdown-item" href="#">Separated link</a></li>
+    
   </ul>
 </div>
 
