@@ -4,3 +4,7 @@
 #newRequestButton {
     margin-left: 77px;
 }
+#changeRequestStatusErrors{
+    margin-top: 20px;
+    color:red;
+}

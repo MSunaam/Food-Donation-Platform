@@ -41,7 +41,7 @@
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="{{ route('home') }}">
             <img src="{{ asset('images/food-bank.png') }}" alt="mealShare" width="30" height="24" class="d-inline-block align-text-top">
             MealShare
         </a>
@@ -257,9 +257,7 @@
             },
             options: {
                 responsive: false,
-                animation: {
-                    duration: 1
-                }
+                
             }
         });
     }
@@ -477,8 +475,6 @@
         e.preventDefault();
         var form = document.getElementById('addItem');
         var formData = new FormData(form);
-
-        // console.log(formData);
 
         formData.set('foodBankId', '{{ Auth::user()->id }}');
 

@@ -45,9 +45,6 @@
                         <a class="nav-link" aria-current="page" href="{{ route('dashboard') }}">Dashboard</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Schedule</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="#" tabindex="-1" aria-disabled="true">Contact Us</a>
                     </li>
                 </ul>

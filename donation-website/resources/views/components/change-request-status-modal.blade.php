@@ -59,6 +59,9 @@
                     </div>
                 </form>
 
+                <div class="text-center d-none" id="changeRequestStatusErrors" role="alert">
+                </div>
+
 
             </div>
             <div class="modal-footer">

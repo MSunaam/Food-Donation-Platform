@@ -13,9 +13,15 @@ class RequestController extends Controller
 
     public function requestView(){
 
-        $history = DB::table('requests')->get();
+        $id = Auth::user()->id;
 
-        return view('users.foodBank.request', ['history' => $history]);
+        $requestHistory = DB::table('requests')
+            ->select('requests.id', 'users.name', 'requests.food_category', 'requests.quantity','requests.request_date', 'requests.status', 'notes')
+            ->join('users', 'users.id', '=', 'requests.requester_id')
+            ->where('requests.requester_id', '=', $id)
+            ->get();
+
+        return view('users.foodBank.request', ['history' => $requestHistory]);
     }
 
     public function getRequests(Request $request){

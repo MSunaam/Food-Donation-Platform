@@ -33,6 +33,7 @@ Route::controller(UserController::class)->group(function (){
     Route::post('/authenticate', 'authenticate')->name('authenticate');
     Route::get('/profile', 'profileView')->name('profile');
     Route::post('/updateProfile', 'updateProfile')->name('updateProfile');
+    Route::post('/delete_account', 'deleteAccount')->name('delete_account');
 })->middleware('auth');
 
 Route::controller(FoodItemController::class)->group(function (){

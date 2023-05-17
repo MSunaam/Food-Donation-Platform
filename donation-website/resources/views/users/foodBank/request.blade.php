@@ -154,8 +154,11 @@
         changeRequestModal.show();
     });
 
+    var statusChangeErrorDiv = document.querySelector('#changeRequestStatusErrors');
+
     changeRequestModalEl.addEventListener('hidden.bs.modal', function (event) {
         updateTable();
+        statusChangeErrorDiv.classList.add('d-none');
     });
 
     $('#changeRequestStatusForm').validate([
@@ -256,6 +259,9 @@
                     },
                     error: function (data) {
                         console.log(data);
+                        var errors = data.responseJSON.message;
+                        statusChangeErrorDiv.innerHTML = errors;
+                        statusChangeErrorDiv.classList.remove('d-none');
                     }
                 }
             );
@@ -278,6 +284,14 @@
     var requestTableBody = document.querySelector('#requestTableBody');
 
     var refreshTable = function (arr) {
+
+        if(arr.length === 0){
+            requestTableBody.innerHTML = '<tr>' +
+                '<td colspan="7" class="text-center"><span>No Requests</span></td>' +
+                '</tr>';
+            return;
+        }
+
         requestTableBody.innerHTML = '';
 
         (arr.forEach(function(entry){
@@ -339,6 +353,7 @@
     newRequestModalEl.addEventListener('hidden.bs.modal', function(){
        updateTable();
     });
+
 
     var submitFormRequest = document.querySelector('#submitFormRequest');
     var requestForm = document.querySelector('#newRequestForm');
