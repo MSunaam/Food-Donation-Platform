@@ -24,7 +24,7 @@ class User extends Authenticatable
         'address',
         'phone_number',
         'user_type',
-//        'city',
+        'city',
 //        'state',
 //        'zip_code',
 //        'country',

@@ -10,7 +10,7 @@ return [
     |--------------------------------------------------------------------------
     |
     | This option controls the default session "driver" that will be used on
-    | requests. By default, we will use the lightweight native driver but
+    | request. By default, we will use the lightweight native driver but
     | you may specify any of the other wonderful drivers provided here.
     |
     | Supported: "file", "cookie", "database", "apc",
@@ -109,7 +109,7 @@ return [
     |
     | Some session drivers must manually sweep their storage location to get
     | rid of old sessions from storage. Here are the chances that it will
-    | happen on a given request. By default, the odds are 2 out of 100.
+    | happen on a given requestController. By default, the odds are 2 out of 100.
     |
     */
 
@@ -188,7 +188,7 @@ return [
     | Same-Site Cookies
     |--------------------------------------------------------------------------
     |
-    | This option determines how your cookies behave when cross-site requests
+    | This option determines how your cookies behave when cross-site request
     | take place, and can be used to mitigate CSRF attacks. By default, we
     | will set this value to "lax" since this is a secure default value.
     |

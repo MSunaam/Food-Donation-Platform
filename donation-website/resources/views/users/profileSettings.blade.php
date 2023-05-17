@@ -72,6 +72,8 @@
     </div>
 </nav>
 
+<x-delete-account-modal/>
+
 <div class="container-fluid mt-5">
     <div class="text-start" id="profileHeading">
         <span class="display-6">Profile</span>
@@ -100,7 +102,7 @@
         <div class="col-md-6">
             <br>
             <p>User Since: {{ date('d-m-Y', strtotime(Auth::user()->created_at)) }}</p>
-            <button class="btn btn-red">Delete Account</button>
+            <button class="btn btn-red" id="deleteAccount">Delete Account</button>
         </div>
 
     </div>
@@ -124,11 +126,123 @@
 
 
 <script>
+
+    var deleteAccount = document.getElementById('deleteAccount');
+    deleteAccount.addEventListener('click',function(e){
+        e.preventDefault();
+        $('#deleteAccountModal').modal('show');
+    });
+
+    var deleteAccountButton = document.getElementById('deleteAccountButton');
+    deleteAccountButton.addEventListener('click',function(e){
+        e.preventDefault();
+        $('#deleteAccountModal').modal('hide');
+        $('#deleteAccountForm').submit();
+    });
+
     var detailsFormButton = document.getElementById('detailsFormButton');
 
     detailsFormButton.addEventListener('click',function(e){
         e.preventDefault();
         $('#formDiv').toggleClass('d-none');
+    });
+
+    var errorDiv = document.getElementById('errorDiv');
+    console.log(errorDiv)
+
+    var updateProfileForm = document.getElementById('updateProfileForm');
+    var updateProfileFormButton = document.getElementById('updateProfileFormButton');
+
+    var updateAlert = document.querySelector('#updateAlert');
+
+    $('#updateProfileForm').validate({
+        errorClass: 'error fail-alert',
+        validClass: 'valid success-alert',
+        rules: {
+            name: {
+                required: true,
+                minlength: 3,
+            },
+            old_password: {
+                required: true,
+                minlength: 8,
+            },
+            address: {
+                required: true,
+                minlength: 3,
+            },
+            phone_number: {
+                required: true,
+                minlength: 10,
+                number: true,
+            },
+            city: {
+                required: true,
+                minlength: 3,
+            },
+        },
+        messages : {
+            name: {
+                required: 'Please enter your name',
+                minlength: 'Name must be at least 3 characters long',
+            },
+            old_password: {
+                required: 'Please enter your old password',
+                minlength: 'Password must be at least 8 characters long',
+            },
+            address: {
+                required: 'Please enter your address',
+                minlength: 'Address must be at least 3 characters long',
+            },
+            phone_number: {
+                required: 'Please enter your phone number',
+                minlength: 'Phone number must be at least 10 characters long',
+                number: "Please enter a valid phone number"
+            },
+            city: {
+                required: 'Please enter your city',
+                minlength: 'City must be at least 3 characters long',
+            },
+
+        },
+    });
+
+    updateProfileFormButton.addEventListener('click',function(e) {
+        e.preventDefault();
+        var formData = new FormData(updateProfileForm);
+
+        if ($('#updateProfileForm').valid()) {
+            $.ajax({
+                url: "{{ route('updateProfile') }}",
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    console.log(response);
+                    updateAlert.classList.remove('d-none');
+                    updateAlert.classList.add('d-inline-block');
+
+                    $("#password").val("");
+                    $("#old_password").val("");
+                    $("#confirm_password").val("");
+
+                    setTimeout(function (){
+                        updateAlert.classList.remove('d-inline-block');
+                        updateAlert.classList.add('d-none');
+                    }, 2000);
+
+                },
+                error: function (response) {
+                    console.log(response);
+                    errorDiv.innerHTML = '';
+                    errorDiv.classList.remove('d-none');
+                    var errors = response.responseJSON.message;
+                    errorDiv.innerHTML += '<p class="text-center">'+ errors +'</p>';
+                }
+            });
+        }
+
     });
 
 </script>

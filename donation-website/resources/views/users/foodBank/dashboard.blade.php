@@ -32,31 +32,38 @@
 {{--    <script> window.location.href = "{{ route('home') }}" </script>--}}
 {{--@endif--}}
 
+@if(!auth()->check())
+    <script> window.location.href = "{{ route('login') }}" </script>
+@endif
+
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="{{ route('home') }}">
             <img src="{{ asset('images/food-bank.png') }}" alt="mealShare" width="30" height="24" class="d-inline-block align-text-top">
             MealShare
         </a>
         <div class="collapse navbar-collapse" id="navbarToggler">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="{{route('showinventory')}}">Inventory</a>
+                    <a class="nav-link active" href="">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{route('showinventory')}}">Inventory</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{route('showschedule')}}">Schedule</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#" tabindex="-1" aria-disabled="true">Contact Us</a>
+                    <a class="nav-link" href="{{ route('request') }}">Request</a>
                 </li>
             </ul>
             <div class="nav-item dropdown mx-5">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <img src="{{ asset('images/food-bank.png') }}" class="rounded-circle align-middle mb-2" width="30px" height="30px">
-                     <span class=>{{ Auth::user() ? Auth::user()->name : "Sunaam" }}</span>
+                     <span class=>{{ Auth::user()->name }}</span>
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <li>
@@ -94,8 +101,23 @@
 
             <span class="alert alert-success d-none" id="successInventoryMessage">Successfully Added</span>
 
-            <div class="row justify-content-center mt-3">
-                <canvas id="myChart" width="300px"></canvas>
+            <div class="row justify-content-center mt-3" id="chartParent">
+                <canvas id="myChart"></canvas>
+                <script>
+                    var arrQuantity = [];
+                    var arrName = [];
+
+                    @foreach($quantities as $quantity)
+                    arrQuantity.push({{ $quantity->quantity }});
+                    arrName.push('{{ $quantity->food_category }}');
+                    // arrName
+                    @endforeach
+
+                    const ctx = document.getElementById('myChart');
+
+
+
+                </script>
             </div>
         </div>
 
@@ -123,17 +145,28 @@
                     </thead>
                     <tbody id="schedulesBody">
 
-
-
-                    @foreach($schedules as $schedule)
+                    @if($schedules->isEmpty())
 
                         <tr>
-                            <th scope="row">{{ $schedule->donations_id }}</th>
-                            <td>{{ $schedule->food_name }}</td>
-                            <td>{{ $schedule->donor_name }}</td>
-                            <td>{{ ucfirst($schedule->status) }}</td>
+                            <td colspan="4" class="text-center">No Data</td>
                         </tr>
-                    @endforeach
+
+                    @else
+
+                        @foreach($schedules as $schedule)
+
+                            <tr>
+                                <th scope="row">{{ $schedule->donations_id }}</th>
+                                <td>{{ $schedule->food_name }}</td>
+                                <td>{{ $schedule->donor_name }}</td>
+                                <td>{{ ucfirst($schedule->status) }}</td>
+                            </tr>
+
+                        @endforeach
+
+                    @endif
+
+
 
                     </tbody>
                 </table>
@@ -147,6 +180,17 @@
 </div>
 
 <script>
+
+    pieChartColors = [
+        'salmon',
+        'steelblue',
+        'cadetblue',
+        'khaki',
+        'mediumorchid',
+        'sandybrown',
+        'turquoise',
+        'mediumvioletred'
+    ];
 
     chart = undefined;
     function createChart() {
@@ -170,6 +214,7 @@
                     label: 'Food Quantity',
                     // data: [12, 19, 3, 5, 2, 3],
                     data: arrQuantity,
+                    backgroundColor: pieChartColors,
                     borderWidth: 1
                 }]
             },
@@ -180,30 +225,46 @@
     }
     createChart();
 
-    function addDataChart(chart, quantities){
+    function refreshChart(chart, quantities) {
 
-        console.log('aaa')
+        var arrName = [];
+        var arrQuantity = [];
 
-        var arrLabels = [];
-        var arrQuantities = [];
-
-        for(let i=0; i<quantities.length; i++){
-            arrLabels.push(quantities[i].food_category);
-            arrQuantities.push(quantities[i].quantity);
+        for (var i = 0; i < quantities.length; i++) {
+            arrName.push(quantities[i].food_category);
+            arrQuantity.push(quantities[i].quantity);
         }
-        chart.data.labels.push(arrLabels);
-        chart.data.datasets.forEach((dataset) => {
-            dataset.data.push(arrQuantities);
+
+        var canvasParent = document.getElementById('chartParent');
+        var canvas = document.getElementById('myChart');
+        canvasParent.removeChild(canvas);
+        canvas = document.createElement('canvas');
+        canvas.id = 'myChart';
+        canvasParent.appendChild(canvas);
+
+        chart = new Chart(canvas, {
+            type: 'pie',
+            data: {
+                // labels: ['Produce', 'Grains', 'Dairy', 'Meat', 'Packaged', 'Beverages', 'Condiments', 'Frozen'],
+                labels: arrName,
+                datasets: [{
+                    label: 'Food Quantity',
+                    // data: [12, 19, 3, 5, 2, 3],
+                    data: arrQuantity,
+                    backgroundColor: pieChartColors,
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: false,
+
+            }
         });
-        // console.log(arrLabels);
-        // console.log(arrQuantities);
-        chart.update();
     }
 
     function capitalizeFirstLetter(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
-
 
     var refreshData = function() {
 
@@ -215,15 +276,15 @@
             dataType:'json',
             success: function (response) {
                 console.log(response);
-                schedulesBody.innerHTML = '';
 
-                addDataChart(chart, response.quantities);
+                schedulesBody.innerHTML = '';
 
                 for(i = 0; i < response.schedules.length; i++){
                     var updatedSchedules = "<tr><th scope='row'>" + response.schedules[i].donations_id + "</th><td>" + response.schedules[i].food_name + "</td><td>" + response.schedules[i].donor_name +"</td><td>" + capitalizeFirstLetter(response.schedules[i].status) + "</td></tr>";
-
                     $('#schedulesBody').append(updatedSchedules);
                 }
+
+                refreshChart(chart, response.quantities);
             },
             error: function (response) {
                 console.log(response);
@@ -231,7 +292,6 @@
 
             });
     }
-
 
     var markSchedulesButton = document.getElementById('completeScheduleButton');
     var markSchedulesModalEl = document.querySelector('#modal3');
@@ -357,7 +417,6 @@
         addScheduleModal.show();
     });
 
-
     var addItems = document.getElementById('submitForm');
 
     var addItemButton = document.getElementById('addItemButton');
@@ -416,8 +475,6 @@
         e.preventDefault();
         var form = document.getElementById('addItem');
         var formData = new FormData(form);
-
-        // console.log(formData);
 
         formData.set('foodBankId', '{{ Auth::user()->id }}');
 
@@ -568,9 +625,6 @@
     addDonationModalEl.addEventListener('hidden.bs.modal', function() {
         refreshData();
     });
-
-
-
 
 </script>
 

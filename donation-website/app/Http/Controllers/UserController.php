@@ -7,6 +7,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
 class UserController extends Controller
@@ -25,6 +26,7 @@ class UserController extends Controller
             'address' => 'required',
             'phone_number' => 'required|numeric',
             'user_type' => 'required|in:groceryStore,restaurant,foodBank',
+            'city' => 'required',
         ]);
 
         //Hashing
@@ -80,28 +82,51 @@ class UserController extends Controller
 
     public function updateProfile(Request $request){
 
-        $password = Auth::user()->password;
-
-        $request->validate([
-            'name' => 'required|string',
-            'phone_number' => 'required|number',
-            'address' => 'required',
-            'city' => 'required',
-            'old_password' => ['required', ]
-//            'password'  => Rule::when($request->password != "" or $request->confirm_password != "" , ['min:8', 'same:confirm_password']),
-//            'confirm_password'  => Rule::when($request->password != "" or $request->confirm_password != "" , ['min:8', 'same:password'])
-        ]);
+        if(Auth::attempt(['email' => Auth::user()->email, 'password' => $request->old_password])){
+            // Authentication passed...
+            $request->validate([
+                'name' => 'required|string',
+                'phone_number' => 'required|numeric',
+                'address' => 'required',
+                'city' => 'required',
+                'old_password' => ['required', ],
+                'password'  => Rule::when($request->password != "" or $request->confirm_password != "" , ['min:8', 'same:confirm_password']),
+                'confirm_password'  => Rule::when($request->password != "" or $request->confirm_password != "" , ['min:8', 'same:password'])
+            ]);
+        }else{
+            return response()->json([
+                'error' => true,
+                'message' => 'Invalid Password'
+            ], 403);
+        }
 
         $id = Auth::user()->id;
 
-        DB::table('users')
-            ->where('users.id', $id)
-            ->update([
-                'name' => $request->name,
-                'phone_number' => $request->phone_number,
-                'address' => $request->address,
-                'city' => $request->city
-            ]);
+        if($request->password != "" and $request->confirm_password != "" and $request->password == $request->confirm_password){
+
+            $password = bcrypt($request->password);
+            DB::table('users')
+                ->where('users.id', $id)
+                ->update([
+                    'name' => $request->name,
+                    'phone_number' => $request->phone_number,
+                    'address' => $request->address,
+                    'city' => $request->city,
+                    'password' => $password
+                ]);
+
+        }else{
+
+            DB::table('users')
+                ->where('users.id', $id)
+                ->update([
+                    'name' => $request->name,
+                    'phone_number' => $request->phone_number,
+                    'address' => $request->address,
+                    'city' => $request->city
+                ]);
+
+        }
 
         return response()->json([
             'error' => false,
@@ -112,5 +137,37 @@ class UserController extends Controller
 
     public function profileView() {
         return view('users.profileSettings');
+    }
+
+    public function deleteAccount(Request $request)
+    {
+
+        $email = Auth::user()->email;
+        $id = Auth::user()->id;
+        $password = $request->password;
+
+        if (Auth::attempt(['email' => $email, 'password' => $password])) {
+            // Authentication passed...
+            $request->validate([
+                'password' => 'required',
+            ]);
+
+            DB::table('requests')
+                ->where('requests.requester_id', $id)
+                ->delete();
+            DB::table('users')
+                ->where('users.id', $id)
+                ->delete();
+
+            return redirect('/')->with('message', 'Account Deleted Successfully');
+
+        } else {
+
+            return response()->json([
+                'error' => true,
+                'message' => 'Invalid Password'
+            ], 403);
+
+        }
     }
 }

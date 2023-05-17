@@ -36,6 +36,13 @@
         </div>
     </div>
     <div class="row justify-content-center">
+        <label for="city" class="col-md-3 col-form-label mt-3">City</label>
+        <div class="col-sm-6">
+            <input type="text" class="form-control mt-3" id="city" name="city" placeholder="City" required>
+            <label for="city" class="error fail-alert"></label>
+        </div>
+    </div>
+    <div class="row justify-content-center">
         <label for="phone_number" class="col-md-3 col-form-label mt-3">Phone</label>
         <div class="col-sm-6">
             <input type="text" class="form-control mt-3" id="phone" name="phone_number" placeholder="+9200000000" required>

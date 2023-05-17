@@ -4,15 +4,14 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Dashboard-MealShare</title>
+    <title>Inventory-MealShare</title>
     <x-favicon/>
 
-{{--    Styles--}}
-    <x-bootstrap-css/>
-    <!-- <link href="{{ asset('css/dashboard.css') }}" rel="stylesheet" type="text/css"> -->
-    <link href="{{ asset("css/theme.css") }}" rel="stylesheet" type="text/css">
-{{--    Scripts--}}
+{{--    CSS--}}
+    <x=bootstrap-css/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/theme.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/inventory.css') }}">
+{{--    Script--}}
     <x-ajax/>
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
@@ -24,8 +23,6 @@
 <body>
 
 {{--Navbar Component--}}
-
-<!-- {{--{{ $schedules }}--}} -->
 
 {{--@if(Auth::user()->user_type != 'food_bank')--}}
 {{--    <script> window.location.href = "{{ route('home') }}" </script>--}}
@@ -42,20 +39,24 @@
         </a>
         <div class="collapse navbar-collapse" id="navbarToggler">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="{{route('showinventory')}}">Inventory</a>
+              <li class="nav-item">
+                    <a class="nav-link" href="{{ route('dashbaord') }}">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{route('showschedule')}}">Schedule</a>
+                    <a class="nav-link active" aria-current="page" href="#">Inventory</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#" tabindex="-1" aria-disabled="true">Contact Us</a>
+                    <a class="nav-link" href="">Schedule</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('request') }}">Request</a>
                 </li>
             </ul>
             <div class="nav-item dropdown mx-5">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <img src="{{ asset('images/food-bank.png') }}" class="rounded-circle align-middle mb-2" width="30px" height="30px">
-                     <span class=>{{ Auth::user() ? Auth::user()->name : "Sunaam" }}</span>
+
+                     <span class=>{{ Auth::user()->name }}</span>
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <li>
@@ -254,7 +255,6 @@ function sortbycategory() {
 
 
 </script>
-
 
 </body>
 </html>

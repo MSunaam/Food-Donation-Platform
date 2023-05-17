@@ -20,7 +20,7 @@ return new class extends Migration
                 $table->string('unit');
                 $table->foreignId('foodBankId')->constrained(
                     table: 'users', indexName: 'id'
-                );
+                )->onDelete('cascade');
                 $table->timestamps();
 
         });
