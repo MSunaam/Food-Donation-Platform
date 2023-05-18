@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class DonationController extends Controller
@@ -77,5 +78,24 @@ class DonationController extends Controller
             ]);
 
     }
-    
+
+    public function donationHistory(Request $request){
+
+        $id = Auth::user()->id;
+
+        $donations = DB::table('donations')
+            ->select('donations.id', 'users.name as donor_name', 'donations.food_name', 'donations.food_category', 'donations.status', 'donations.scheduled_pickup_time')
+            ->join('users', 'users.id', '=', 'donations.donor_id')
+            ->where('donations.receiver_id', $id)
+            ->get();
+
+
+        if($request->ajax()){
+            return ['donations' => $donations];
+        }
+
+        return view('users.donationHistory', compact('donations'));
+
+    }
+
 }

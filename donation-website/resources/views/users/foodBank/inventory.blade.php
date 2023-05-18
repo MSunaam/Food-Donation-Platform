@@ -46,7 +46,7 @@
                     <a class="nav-link active" aria-current="page" href="">Inventory</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="">Schedule</a>
+                    <a class="nav-link" href="{{ route('donationHistory') }}">Donation</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('request') }}">Request</a>
@@ -84,20 +84,19 @@
     </div>
 </div>
 
+<div class="btn-group d-inline-block mt-3" id="sortInventoryButton">
+    <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+        Sort By
+    </button>
+    <ul class="dropdown-menu">
+        <li><button class="dropdown-item" id="sortByExpirationDate">Sort by Expiration Date </li>
+        <li><button class="dropdown-item" id="sortByCategory"> Sort by Category </li>
+        <li><button class="dropdown-item" id="sortByQuantity"> Sort by Quantity </li>
+    </ul>
+</div>
+
 <div class="container justify-content-around mainDiv">
     <div class="row justify-content-around">
-
-        <div class="btn-group d-inline-block">
-          <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-            Sort By
-          </button>
-          <ul class="dropdown-menu">
-            <li><button class="dropdown-item" id="sortByExpirationDate">Sort by Expiration Date </li>
-            <li><button class="dropdown-item" id="sortByCategory"> Sort by Category </li>
-            <li><button class="dropdown-item" id="sortByQuantity"> Sort by Quantity </li>
-          </ul>
-        </div>
-
         <div class="container-fluid my-3">
             <table class="table">
                 <thead>

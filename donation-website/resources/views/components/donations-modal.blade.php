@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">Schedule Details</h5>
+                <h5 class="modal-title" id="staticBackdropLabel">Donation Details</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -75,7 +75,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-gunmetal" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-orange" id="addDonation">Schedule</button>
+                <button type="button" class="btn btn-orange" id="addDonation">Add Donation</button>
             </div>
         </div>
     </div>

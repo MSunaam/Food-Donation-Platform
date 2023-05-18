@@ -38,7 +38,7 @@
                     <a class="nav-link" href="{{ route('showInventory') }}">Inventory</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Schedule</a>
+                    <a class="nav-link" href="{{ route('donationHistory') }}">Donation</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active" href="{{ route('request') }}">Request</a>

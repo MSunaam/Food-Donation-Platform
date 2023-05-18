@@ -51,11 +51,11 @@
                 <div class="nav-item dropdown mx-5">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <img src="{{ asset('images/food-bank.png') }}" class="rounded-circle align-middle mb-2" width="30px" height="30px">
-                        <span class=>{{ Auth::user() ? Auth::user()->name : "Sunaam" }}</span>
+                        <span class=>{{ Auth::user()->name }}</span>
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li>
-                            <a class="dropdown-item" href="#">
+                            <a class="dropdown-item" href="{{ route('profile') }}">
                                 <img src="{{ asset('images/setting.png') }}" class="rounded-circle" width="20px" height="20px">
                                 Profile
                             </a>
@@ -93,8 +93,11 @@
 
 <div class="container">
     <div class="row">
-        <div class="col" id="missionText">
+        <div class="col-md-6" id="missionText">
             <p class="lead">Our mission at MealShare is to connect restaurants, grocery stores, food banks, and charitable organizations in a seamless and efficient manner, fostering a community dedicated to reducing food waste and ensuring access to nutritious meals for those in need. We strive to empower businesses and organizations to make a tangible impact by streamlining food donations, promoting sustainability, and raising awareness about the importance of food security. Through our innovative platform, we aim to inspire collective action and create a world where everyone has the resources to live a healthy, nourished life.</p>
+        </div>
+        <div class="col-md-6">
+            <lottie-player src="https://assets10.lottiefiles.com/packages/lf20_hytsx9gs.json"  background="transparent"  speed="1"  style="width: 600px; height: 600px;"  loop  autoplay></lottie-player>
         </div>
     </div>
 </div>

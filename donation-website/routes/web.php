@@ -46,21 +46,8 @@ Route::controller(FoodItemController::class)->group(function (){
 Route::controller(DonationController::class)->group(function (){
     Route::post('/add_donation','addDonation')->name('add_donation');
     Route::post('/mark_schedule','markComplete')->name('mark_schedule');
+    Route::get('/donationHistory','donationHistory')->name('donationHistory');
 })->middleware('auth');
-
-
-//Route::post('/mark_schedule', [DonationController::class, 'markComplete'])->name('mark_schedule')->middleware('auth');
-////Route::get('/test', [])
-//
-//Route::get('/show_inventory',[FoodItemController::class, 'show_inventory'])->name('showinventory')->middleware('auth');
-//
-//
-//Route::get('/getfooddata',[FoodItemController::class, 'get_food_data'])->name('getfooddata')->middleware('auth');
-//
-//Route::get('/sortbyquantity',[FoodItemController::class, 'sortquantity'])->name('sortbyquantity')->middleware('auth');
-//
-//Route::get('/sortbycategory',[FoodItemController::class, 'sortcategory'])->name('sortbycategory')->middleware('auth');
-
 
 
 Route::controller(RequestController::class)->group(function (){

@@ -54,7 +54,7 @@
                     <a class="nav-link" href="{{route('showInventory')}}">Inventory</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="">Schedule</a>
+                    <a class="nav-link" href="{{ route('donationHistory') }}">Donation</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('request') }}">Request</a>
@@ -122,11 +122,11 @@
         </div>
 
         <div class="col-md-5 m-1 borderShadow " id="scheduleInformation">
-            <span class="lead">Schedule</span>
+            <span class="lead">Donations</span>
 
-            <button class="btn btn-gunmetal mb-1 mx-1" id="addScheduleButton" data-bs-toggle="modal2" data-bs-target="#modal2">Schedule</button>
+            <button class="btn btn-gunmetal mb-1 mx-1" id="addScheduleButton" data-bs-toggle="modal2" data-bs-target="#modal2">Donations</button>
             <button class="btn btn-orange mb-1" id="completeScheduleButton">Mark Complete</button>
-            <x-schedule-modal/>
+            <x-donations-modal/>
 
             <span class="text-end blockquote-footer">Latest ten</span>
 
