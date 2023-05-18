@@ -28,9 +28,9 @@
 
 {{--{{ $schedules }}--}}
 
-{{--@if(Auth::user()->user_type != 'food_bank')--}}
-{{--    <script> window.location.href = "{{ route('home') }}" </script>--}}
-{{--@endif--}}
+@if(Auth::user()->user_type != 'food_bank')
+    <script> window.location.href = "{{ route('home') }}" </script>
+@endif
 
 @if(!auth()->check())
     <script> window.location.href = "{{ route('login') }}" </script>

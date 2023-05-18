@@ -94,7 +94,6 @@
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
             <li><a class="dropdown-item" id="dateSort">Date</a></li>
             <li><a class="dropdown-item" id="statusSort">Status</a></li>
-            <li><a class="dropdown-item" id="quantity">Quantity</a></li>
         </ul>
     </div>
 
@@ -142,6 +141,14 @@
 
 <script>
 
+    $('#dateSort').click(function(){
+        refreshTable('date');
+    });
+
+    $('#statusSort').click(function(){
+        refreshTable('status');
+    });
+
     function formatDate(str) {
         var year = str.slice(0,4);
         var month = str.slice(5,7);
@@ -166,12 +173,62 @@
         changeStatusModal.show();
     });
 
-    var changeStatusButton = document.getElementById('mark_schedule_form');
+    var form = document.getElementById('mark_schedule_form');
+
+    $("#mark_schedule_form").validate({
+        errorClass: 'error fail-alert',
+        validClass: 'valid success-alert',
+        rules: {
+            donation_id : {
+                required: true,
+                number: true
+            },
+            status : {
+                required: true,
+            },
+            actual_pickup_time : {
+                required: true,
+            }
+        },
+
+        messages : {
+            donation_id : {
+                required: 'Please enter Donation Id',
+                number: 'Please enter a number'
+            },
+            status : {
+                required: 'Please enter a status',
+            },
+            actual_pickup_time : {
+                required: 'Please enter a time',
+            }
+        }
+
+    });
+
+    var changeStatusButton = document.getElementById('changeStatus');
     changeStatusButton.addEventListener('click', function(e){
         e.preventDefault();
-        var form = document.getElementById('mark_schedule_form');
         var formData = new FormData(form);
-        o
+
+        if($("#mark_schedule_form").valid()){
+            $.ajax({
+                url: "{{ route('mark_schedule') }}",
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    console.log(data);
+                    changeStatusModal.hide();
+                },
+                error: function (data) {
+                    console.log(data);
+                }
+            });
+        }
+
+
     });
 
 
@@ -202,8 +259,8 @@
                     data.sort(function(a, b){
                         var x = a.status.toLowerCase();
                         var y = b.status.toLowerCase();
-                        if (x < y) {return -1;}
-                        if (x > y) {return 1;}
+                        if (x < y) {return 1;}
+                        if (x > y) {return -1;}
                         return 0;
                     });
                 }
@@ -211,8 +268,8 @@
                     data.sort(function(a, b){
                         var x = a.scheduled_pickup_time.toLowerCase();
                         var y = b.scheduled_pickup_time.toLowerCase();
-                        if (x < y) {return -1;}
-                        if (x > y) {return 1;}
+                        if (x < y) {return 1;}
+                        if (x > y) {return -1;}
                         return 0;
                     });
                 }
