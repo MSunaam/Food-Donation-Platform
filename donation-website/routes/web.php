@@ -34,6 +34,7 @@ Route::controller(UserController::class)->group(function (){
     Route::get('/profile', 'profileView')->name('profile');
     Route::post('/updateProfile', 'updateProfile')->name('updateProfile');
     Route::post('/delete_account', 'deleteAccount')->name('delete_account');
+    Route::view('dashboardOther', 'users.dashboardOther')->name('dashboardOther');
 })->middleware('auth');
 
 Route::controller(FoodItemController::class)->group(function (){
@@ -47,6 +48,7 @@ Route::controller(DonationController::class)->group(function (){
     Route::post('/add_donation','addDonation')->name('add_donation');
     Route::post('/mark_schedule','markComplete')->name('mark_schedule');
     Route::get('/donationHistory','donationHistory')->name('donationHistory');
+    Route::post('/new_donation','newDonation')->name('newDonation');
 })->middleware('auth');
 
 
@@ -54,5 +56,6 @@ Route::controller(RequestController::class)->group(function (){
     Route::get('request', 'requestView')->name('request');
     Route::post('addRequest', 'addRequest')->name('addRequest');
     Route::get('getRequest', 'getRequests')->name('getRequests');
+    Route::get('getRecentRequests', 'recentRequests')->name('recentRequests');
     Route::post('updateRequest', 'updateRequest')->name('updateRequest');
 })->middleware('auth');

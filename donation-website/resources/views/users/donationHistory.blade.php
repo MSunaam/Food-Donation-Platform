@@ -119,7 +119,7 @@
 
             @if($donations->isEmpty())
                 <tr>
-                    <td colspan="7" class="text-center"><span>No Requests</span></td>
+                    <td colspan="7" class="text-center"><span>No History</span></td>
                 </tr>
             @else
                 @foreach($donations as $request)

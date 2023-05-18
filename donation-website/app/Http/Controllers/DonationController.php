@@ -11,6 +11,45 @@ class DonationController extends Controller
 {
     //
 
+    public function newDonation(Request $request){
+
+        $donation = $request->validate([
+            'donor_id' => 'required|integer|exists:users,id',
+            'request_id' => 'required|integer|exists:requests,id',
+            'quantity' => 'required|integer',
+            'scheduled_pickup_time' => 'required|date',
+            'food_name' => 'required',
+        ]);
+
+        $requestDetails = DB::table('requests')
+            ->select('requests.id', 'requester_id', 'requests.food_category', 'requests.quantity','requests.request_date', 'requests.status', 'notes')
+            ->where('requests.id', '=', $request->request_id)
+            ->get();
+
+        DB::table('donations')
+            ->insert([
+                'donor_id' => $request->donor_id,
+                'receiver_id' => $requestDetails[0]->requester_id,
+                'food_category' => $requestDetails[0]->food_category,
+                'status' => 'scheduled',
+                'scheduled_pickup_time' => $request->scheduled_pickup_time,
+                'created_at' => Carbon::now()->toDateString(),
+                'food_name' => $request->food_name,
+            ]);
+
+        DB::table('requests')
+            ->where('id', '=', $request->request_id)
+            ->update([
+                'status' => 'partially_fulfilled',
+            ]);
+
+        return response()->json([
+            "error" => false,
+            "message" => $requestDetails,
+        ]);
+
+    }
+
     public function addDonation(Request $request){
 
         $donation = $request->validate([

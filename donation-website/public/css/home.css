@@ -35,3 +35,10 @@ nav {
     z-index: 1;
     color: #272B30;
 }
+#donationlottie {
+    position: absolute;
+    display: flex;
+    float: right;
+    margin-left: 800px;
+    margin-top: -250px;
+}

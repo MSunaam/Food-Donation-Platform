@@ -157,7 +157,7 @@
                 required: "Please enter your address",
                 minlength: "Address must be at least 3 characters long"
             },
-            phone: {
+            phone_number: {
                 required: "Please enter your phone number",
                 minlength: "Phone number must be 10 digits long",
                 maxlength: "Phone number must be 10 digits long",

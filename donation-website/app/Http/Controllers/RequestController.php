@@ -13,6 +13,10 @@ class RequestController extends Controller
 
     public function requestView(){
 
+        if(!Auth::user()){
+            return redirect()->route('login');
+        }
+
         $id = Auth::user()->id;
 
         $requestHistory = DB::table('requests')
@@ -24,6 +28,22 @@ class RequestController extends Controller
         return view('users.foodBank.request', ['history' => $requestHistory]);
     }
 
+    public function recentRequests(Request $request){
+
+        $requests = DB::table('requests')
+            ->select('requests.id', 'users.name', 'requests.food_category', 'requests.quantity','requests.request_date', 'requests.status', 'notes')
+            ->join('users', 'users.id', '=', 'requests.requester_id')
+            ->where('requests.status', '=', 'open')
+            ->orWhere('requests.status', '=', 'partially_fulfilled')
+            ->get();
+
+        return response()->json([
+            "error" => false,
+            "message" => "Success",
+            "requests" => $requests
+        ]);
+
+    }
     public function getRequests(Request $request){
 
         $id = Auth::user()->id;

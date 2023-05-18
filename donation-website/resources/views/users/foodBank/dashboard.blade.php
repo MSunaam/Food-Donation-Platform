@@ -20,16 +20,13 @@
 {{--    Pie Chart--}}
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-
 </head>
 <body>
 
 {{--Navbar Component--}}
 
-{{--{{ $schedules }}--}}
-
-@if(Auth::user()->user_type != 'food_bank')
-    <script> window.location.href = "{{ route('home') }}" </script>
+@if(Auth::user()->user_type != 'foodBank')
+    <script> window.location.href = "{{ route('dashboardOther') }}" </script>
 @endif
 
 @if(!auth()->check())

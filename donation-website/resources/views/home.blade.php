@@ -80,7 +80,7 @@
     <img src="{{ asset('images/home-image.jpg') }}" class="img-fluid d-block" style="max-width: 80%; z-index: 0" alt="Image" id="bg-image">
     <div id="text-over-img">
         <p class=" h1" id="home-pic-caption">Donate to save lives</p>
-        <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+        <p class="lead">At MealShare, we believe that good food should never go to waste, especially when millions go hungry every day. Our innovative platform bridges the gap between food surpluses and scarcity, connecting restaurants, grocery stores, food banks, and other charitable organizations to create a more sustainable and equitable food system.</p>
         <button class="btn btn-green" id="get-started-btn">Get Started</button>
     </div>
 </div>
@@ -93,11 +93,9 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-6" id="missionText">
+        <div class="col" id="missionText">
             <p class="lead">Our mission at MealShare is to connect restaurants, grocery stores, food banks, and charitable organizations in a seamless and efficient manner, fostering a community dedicated to reducing food waste and ensuring access to nutritious meals for those in need. We strive to empower businesses and organizations to make a tangible impact by streamlining food donations, promoting sustainability, and raising awareness about the importance of food security. Through our innovative platform, we aim to inspire collective action and create a world where everyone has the resources to live a healthy, nourished life.</p>
-        </div>
-        <div class="col-md-6">
-            <lottie-player src="https://assets10.lottiefiles.com/packages/lf20_hytsx9gs.json"  background="transparent"  speed="1"  style="width: 600px; height: 600px;"  loop  autoplay></lottie-player>
+            <span id ="donationlottie"><lottie-player  src="https://assets10.lottiefiles.com/packages/lf20_hytsx9gs.json" background="transparent" speed="1" style="width:600px; height: 600px;" loop autoplay></lottie-player></span>
         </div>
     </div>
 </div>
