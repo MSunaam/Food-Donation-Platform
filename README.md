@@ -59,7 +59,7 @@ We use routes to pass data to views and controllers flexibly.
 - Laravel Framework
 
 ### Installation
-1. Clone the repo `git clone https://github.com/your_username_/MealShare.git`
+1. Clone the repo `git clone https://github.com/MSunaam/MealShare.git`
 2. Navigate to project folder `cd MealShare`
 3. Install Composer dependencies `composer install`
 4. Create a copy of your `.env` file `cp .env.example .env`
